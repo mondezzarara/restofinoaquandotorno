@@ -10,7 +10,7 @@
       --paper: #f3f3df;
       --ink: #050505;
       --frame-width: min(64vw, 620px);
-      --frame-height: 82vh;
+      --frame-height: 100svh; /* ← altezza reale del telefono */
     }
 
     * {
@@ -20,46 +20,44 @@
     html, body {
       margin: 0;
       width: 100%;
-      min-height: 100%;
+      height: 100svh; /* ← elimina lo spazio fantasma */
       background: var(--paper);
       color: var(--ink);
+      overflow: hidden;
     }
 
     body {
       font-family: Helvetica, Arial, sans-serif;
-      overflow: hidden;
     }
 
     .page {
-      min-height: 100vh;
+      height: 100svh; /* ← altezza reale */
       display: flex;
       justify-content: center;
       align-items: center;
-      padding-top: 0.5vh;
+      padding-top: 0;
     }
 
     .frame {
       position: relative;
       width: var(--frame-width);
-      height: var(--frame-height);
+      height: 100%; /* ← occupa tutto */
       overflow: hidden;
 
       padding: 3vh 10% 0; /* nessuno spazio sotto */
       background: transparent;
     }
 
-    /* CORNICE APERTA SOTTO (NESSUNA LINEA) */
+    /* CORNICE APERTA SOTTO */
     .frame::before {
       content: "";
       position: absolute;
       inset: 0;
       border: 7px solid var(--ink);
-      border-bottom: none; /* ← QUESTA È LA CHIAVE */
+      border-bottom: none;
       clip-path: polygon(
         3% 1%, 98% 3%, 96% 38%,
-        97% 90%,  /* si ferma prima del fondo */
-        50% 95%,  /* punta morbida */
-        4% 90%,   /* si ferma prima del fondo */
+        97% 90%, 50% 95%, 4% 90%,
         3% 68%, 5% 48%
       );
       filter: url("#rough");
@@ -71,12 +69,10 @@
       position: absolute;
       inset: 4px -2px -2px 3px;
       border: 4px solid var(--ink);
-      border-bottom: none; /* ← anche qui */
+      border-bottom: none;
       clip-path: polygon(
         4% 2%, 97% 4%, 94% 39%,
-        96% 90%,
-        50% 95%,
-        6% 90%,
+        96% 90%, 50% 95%, 6% 90%,
         4% 69%, 6% 48%
       );
       opacity: .8;
@@ -143,7 +139,6 @@
     @media (max-width: 700px) {
       :root {
         --frame-width: 90vw;
-        --frame-height: 80vh;
       }
 
       .frame {
