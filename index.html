@@ -35,7 +35,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      padding-top: 4vh;
+      padding-top: 2vh; /* meno spazio sopra */
     }
 
     .frame {
@@ -44,8 +44,8 @@
       height: var(--frame-height);
       overflow: hidden;
 
-      /* più respiro ai lati su telefono */
-      padding: 16vh 10% 8vh;
+      /* molto meno spazio sopra */
+      padding: 10vh 10% 8vh;
       background: transparent;
     }
 
@@ -110,21 +110,23 @@
       word-spacing: -0.02em;
     }
 
+    /* DISSOLVENZA MIGLIORATA */
     .top-fade {
       position: absolute;
       z-index: 10;
       top: 0;
       left: 0;
       width: 100%;
-      height: 22vh;
+      height: 16vh; /* più bassa */
       pointer-events: none;
 
       background: linear-gradient(
         to bottom,
         var(--paper) 0%,
-        var(--paper) 22%,
-        rgba(243,243,223,.94) 43%,
-        rgba(243,243,223,.55) 68%,
+        rgba(243,243,223,0.97) 25%,
+        rgba(243,243,223,0.85) 45%,
+        rgba(243,243,223,0.55) 65%,
+        rgba(243,243,223,0.25) 80%,
         rgba(243,243,223,0) 100%
       );
     }
@@ -135,11 +137,13 @@
       left: 0;
       bottom: 0;
       width: 100%;
-      height: 5vh;
+      height: 6vh;
       pointer-events: none;
+
       background: linear-gradient(
         to bottom,
         rgba(243,243,223,0),
+        rgba(243,243,223,0.4),
         var(--paper)
       );
     }
@@ -151,7 +155,7 @@
       }
 
       .frame {
-        padding: 15vh 11% 8vh;
+        padding: 9vh 11% 8vh; /* meno spazio anche su mobile */
       }
 
       .paragraph {
