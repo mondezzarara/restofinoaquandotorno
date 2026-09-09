@@ -35,7 +35,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      padding-top: 1vh; /* quasi niente spazio sopra */
+      padding-top: 0.5vh; /* quasi zero */
     }
 
     .frame {
@@ -44,8 +44,7 @@
       height: var(--frame-height);
       overflow: hidden;
 
-      /* molto meno spazio sopra e sotto */
-      padding: 6vh 10% 2vh;
+      padding: 3vh 10% 2vh; /* molto meno spazio sopra */
       background: transparent;
     }
 
@@ -92,7 +91,7 @@
 
     .story {
       width: 100%;
-      padding-bottom: 40vh; /* meno spazio, il testo parte dal basso */
+      padding-bottom: 40vh;
     }
 
     .paragraph {
@@ -110,25 +109,24 @@
       word-spacing: -0.02em;
     }
 
-    /* DISSOLVENZA MAGICA */
+    /* DISSOLVENZA MAGICA MIGLIORATA */
     .top-fade {
       position: absolute;
       z-index: 10;
       top: 0;
       left: 0;
       width: 100%;
-      height: 20vh;
+      height: 14vh; /* più bassa */
       pointer-events: none;
 
       background: linear-gradient(
         to bottom,
         var(--paper) 0%,
-        rgba(243,243,223,0.98) 20%,
-        rgba(243,243,223,0.90) 35%,
-        rgba(243,243,223,0.75) 50%,
-        rgba(243,243,223,0.55) 65%,
-        rgba(243,243,223,0.35) 78%,
-        rgba(243,243,223,0.15) 90%,
+        rgba(243,243,223,0.95) 10%,
+        rgba(243,243,223,0.80) 30%,
+        rgba(243,243,223,0.55) 55%,
+        rgba(243,243,223,0.30) 75%,
+        rgba(243,243,223,0.10) 90%,
         rgba(243,243,223,0) 100%
       );
     }
@@ -157,7 +155,7 @@
       }
 
       .frame {
-        padding: 5vh 11% 2vh;
+        padding: 2.5vh 11% 2vh; /* ancora meno su mobile */
       }
 
       .paragraph {
