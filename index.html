@@ -35,7 +35,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      padding-top: 0.5vh; /* quasi zero */
+      padding-top: 0.5vh;
     }
 
     .frame {
@@ -44,35 +44,35 @@
       height: var(--frame-height);
       overflow: hidden;
 
-      padding: 3vh 10% 0; /* zero spazio sotto */
+      padding: 3vh 10% 0;
       background: transparent;
     }
 
-    .frame::before,
-    .frame::after {
+    /* CORNICE SENZA LINEA IN BASSO */
+    .frame::before {
       content: "";
       position: absolute;
       inset: 0;
+      border: 7px solid var(--ink);
+      clip-path: polygon(
+        3% 1%, 98% 3%, 96% 38%, 97% 95%,
+        50% 100%, 4% 95%, 3% 68%, 5% 48%
+      );
+      filter: url("#rough");
       pointer-events: none;
     }
 
-    .frame::before {
-      border: 7px solid var(--ink);
-      clip-path: polygon(
-        3% 1%, 98% 3%, 96% 38%, 97% 100%,
-        4% 100%, 3% 68%, 5% 48%
-      );
-      filter: url("#rough");
-    }
-
     .frame::after {
+      content: "";
+      position: absolute;
       inset: 4px -2px -2px 3px;
       border: 4px solid var(--ink);
       clip-path: polygon(
-        4% 2%, 97% 4%, 94% 39%, 96% 100%,
-        6% 100%, 4% 69%, 6% 48%
+        4% 2%, 97% 4%, 94% 39%, 96% 95%,
+        50% 100%, 6% 95%, 4% 69%, 6% 48%
       );
       opacity: .8;
+      pointer-events: none;
     }
 
     .story-window {
@@ -91,8 +91,8 @@
 
     .story {
       width: 100%;
-      padding-top: 2vh; /* micro spazio per la prima frase */
-      padding-bottom: 0; /* niente spazio sotto */
+      padding-top: 2.5vh; /* prima frase più leggibile */
+      padding-bottom: 0;  /* testo esce dal basso */
     }
 
     .paragraph {
@@ -110,7 +110,7 @@
       word-spacing: -0.02em;
     }
 
-    /* DISSOLVENZA MAGICA MIGLIORATA */
+    /* DISSOLVENZA MAGICA */
     .top-fade {
       position: absolute;
       z-index: 10;
@@ -132,8 +132,6 @@
       );
     }
 
-    /* BOTTOM FADE RIMOSSO COMPLETAMENTE */
-
     @media (max-width: 700px) {
       :root {
         --frame-width: 90vw;
@@ -141,7 +139,7 @@
       }
 
       .frame {
-        padding: 2.5vh 11% 0; /* zero spazio sotto anche su mobile */
+        padding: 2.5vh 11% 0;
       }
 
       .paragraph {
