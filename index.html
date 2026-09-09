@@ -3,35 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>restofinoaquandotorno</title>
+  <title>Flusso</title>
 
   <style>
     :root {
       --paper: #f3f3df;
       --ink: #050505;
       --frame-width: min(64vw, 620px);
-      --frame-height: 100svh; /* ← altezza reale del telefono */
+      --frame-height: 100svh;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     html, body {
       margin: 0;
       width: 100%;
-      height: 100svh; /* ← elimina lo spazio fantasma */
+      height: 100svh;
       background: var(--paper);
       color: var(--ink);
       overflow: hidden;
-    }
-
-    body {
       font-family: Helvetica, Arial, sans-serif;
     }
 
     .page {
-      height: 100svh; /* ← altezza reale */
+      height: 100svh;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -41,14 +36,13 @@
     .frame {
       position: relative;
       width: var(--frame-width);
-      height: 100%; /* ← occupa tutto */
+      height: 100%;
       overflow: hidden;
-
-      padding: 3vh 10% 0; /* nessuno spazio sotto */
+      padding: 3vh 10% 0;
       background: transparent;
     }
 
-    /* CORNICE APERTA SOTTO */
+    /* Cornice aperta sotto */
     .frame::before {
       content: "";
       position: absolute;
@@ -85,28 +79,22 @@
       height: 100%;
       overflow-y: auto;
       scrollbar-width: none;
-      -ms-overflow-style: none;
       overscroll-behavior: contain;
     }
 
-    .story-window::-webkit-scrollbar {
-      display: none;
-    }
+    .story-window::-webkit-scrollbar { display: none; }
 
     .story {
       width: 100%;
-      padding-top: 2.5vh; /* prima frase leggibile */
-      padding-bottom: 0;  /* testo esce dal fondo */
+      padding-top: 2.5vh;
+      padding-bottom: 0;
     }
 
     .paragraph {
       margin: 0 0 1.2em;
       padding: 0;
-
       text-align: justify;
       text-align-last: left;
-
-      font-family: Helvetica, Arial, sans-serif;
       font-weight: 700;
       font-size: clamp(20px, 5vw, 32px);
       line-height: .95;
@@ -114,7 +102,6 @@
       word-spacing: -0.02em;
     }
 
-    /* DISSOLVENZA MAGICA */
     .top-fade {
       position: absolute;
       z-index: 10;
@@ -123,7 +110,6 @@
       width: 100%;
       height: 14vh;
       pointer-events: none;
-
       background: linear-gradient(
         to bottom,
         var(--paper) 0%,
@@ -137,18 +123,9 @@
     }
 
     @media (max-width: 700px) {
-      :root {
-        --frame-width: 90vw;
-      }
-
-      .frame {
-        padding: 2.5vh 11% 0;
-      }
-
-      .paragraph {
-        font-size: clamp(19px, 5.8vw, 28px);
-        line-height: .96;
-      }
+      :root { --frame-width: 90vw; }
+      .frame { padding: 2.5vh 11% 0; }
+      .paragraph { font-size: clamp(19px, 5.8vw, 28px); }
     }
   </style>
 </head>
@@ -168,26 +145,31 @@
   </main>
 
   <script>
-    const thoughts = [
-      "resto fino a quando torno",
-      "sembri una prof di inglese",
-      "quando sono a milano ma non devo lavorare mi sento un po’ in colpa, come quando da piccolo restavo a casa da scuola… hai presente?",
-      "ho incontrato il mio match?",
-      "noi sul balcone al freddo, io fumo, lui no. nella casa vicina, una tapparella si abbassa all’improvviso, una luce rossa dietro. “guarda!”, mi dice, prendendomi il braccio. “non vorrei sbagliarmi, ma secondo me è una prostituta.”. io mi giro, ma non c’è più nessuno dietro la finestra. due secondi dopo rientriamo e mi bacia.",
-      "voi del nord avete la nebbia nel cervello"
-    ];
+    async function loadStory() {
+      const storyEl = document.getElementById("story");
 
-    const story = document.getElementById("story");
-    const windowEl = document.getElementById("storyWindow");
+      try {
+        const response = await fetch("racconto.txt");
+        const text = await response.text();
 
-    thoughts.forEach((thought) => {
-      const p = document.createElement("p");
-      p.className = "paragraph";
-      p.textContent = thought;
-      story.appendChild(p);
-    });
+        const lines = text
+          .split("\n")
+          .map(line => line.trim())
+          .filter(line => line.length > 0);
 
-    windowEl.scrollTop = 0;
+        lines.forEach(line => {
+          const p = document.createElement("p");
+          p.className = "paragraph";
+          p.textContent = line;
+          storyEl.appendChild(p);
+        });
+
+      } catch (e) {
+        console.error("Impossibile caricare il racconto:", e);
+      }
+    }
+
+    loadStory();
   </script>
 
 </body>
