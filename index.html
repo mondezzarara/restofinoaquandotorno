@@ -30,46 +30,25 @@
       overflow: hidden;
     }
 
-    /* Titolo provvisorio dello schema */
-    .instruction {
-      position: fixed;
-      top: 4vh;
-      left: 50%;
-      transform: translateX(-50%);
-      width: min(90vw, 900px);
-      text-align: center;
-      font-size: clamp(15px, 1.8vw, 25px);
-      line-height: .95;
-      font-weight: 900;
-      z-index: 20;
-    }
-
     .page {
       min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      padding-top: 8vh;
+      padding-top: 4vh;
     }
 
-    /*
-      Contenitore principale.
-      La cornice è volutamente irregolare, per ricordare il disegno
-      originale. Il testo resta però perfettamente regolare al suo interno.
-    */
     .frame {
       position: relative;
       width: var(--frame-width);
       height: var(--frame-height);
       overflow: hidden;
 
-      /* Spazio superiore volutamente abbondante per la dissolvenza */
-      padding: 18vh 8% 8vh;
-
+      /* più respiro ai lati su telefono */
+      padding: 16vh 10% 8vh;
       background: transparent;
     }
 
-    /* Cornice disegnata con più bordi leggermente sfalsati */
     .frame::before,
     .frame::after {
       content: "";
@@ -97,10 +76,6 @@
       opacity: .8;
     }
 
-    /*
-      La zona che contiene davvero il racconto.
-      È scrollabile, ma la scrollbar è nascosta.
-    */
     .story-window {
       position: relative;
       width: 100%;
@@ -108,11 +83,6 @@
       overflow-y: auto;
       scrollbar-width: none;
       -ms-overflow-style: none;
-
-      /*
-        Rende lo scorrimento naturale e mantiene il testo lontano
-        dai bordi della cornice.
-      */
       overscroll-behavior: contain;
     }
 
@@ -126,30 +96,20 @@
     }
 
     .paragraph {
-      margin: 0 0 1.15em;
+      margin: 0 0 1.2em;
       padding: 0;
 
-      /*
-        Ogni pensiero occupa la stessa larghezza e viene giustificato.
-        In questo modo la "forma" dei paragrafi resta compatta e regolare.
-      */
       text-align: justify;
       text-align-last: left;
-      hyphens: none;
 
       font-family: Helvetica, Arial, sans-serif;
       font-weight: 700;
-      font-size: clamp(22px, 2.65vw, 34px);
-      line-height: .91;
-      letter-spacing: -0.055em;
-      word-spacing: -0.025em;
+      font-size: clamp(20px, 5vw, 32px);
+      line-height: .95;
+      letter-spacing: -0.045em;
+      word-spacing: -0.02em;
     }
 
-    /*
-      Dissolvenza superiore.
-      È separata dal testo e resta sempre sopra di esso.
-      Il testo entra nella zona trasparente e scompare gradualmente.
-    */
     .top-fade {
       position: absolute;
       z-index: 10;
@@ -169,10 +129,6 @@
       );
     }
 
-    /*
-      Piccolo fade anche sotto: non è necessario per il funzionamento,
-      ma evita che il testo "tagli" bruscamente sul bordo.
-    */
     .bottom-fade {
       position: absolute;
       z-index: 10;
@@ -190,34 +146,23 @@
 
     @media (max-width: 700px) {
       :root {
-        --frame-width: 88vw;
-        --frame-height: 82vh;
-      }
-
-      .instruction {
-        top: 2.5vh;
-        font-size: 14px;
+        --frame-width: 90vw;
+        --frame-height: 80vh;
       }
 
       .frame {
-        padding: 17vh 9% 8vh;
+        padding: 15vh 11% 8vh;
       }
 
       .paragraph {
-        font-size: clamp(20px, 5.5vw, 29px);
-        line-height: .92;
-        letter-spacing: -0.055em;
+        font-size: clamp(19px, 5.8vw, 28px);
+        line-height: .96;
       }
     }
   </style>
 </head>
 
 <body>
-
-  <!-- Questo testo può essere eliminato nella versione definitiva -->
-  <div class="instruction">
-    QUA IL TESTO SPARISCE E MAN MANO CHE SCORRI SI DISSOLVE
-  </div>
 
   <main class="page">
     <section class="frame">
@@ -233,29 +178,12 @@
   </main>
 
   <script>
-    /*
-      ============================================================
-      RACCONTO
-      ============================================================
-
-      Per aggiungere il testo nei giorni successivi basta aggiungere
-      un nuovo elemento tra le virgolette qui sotto.
-
-      Esempio:
-      "nuovo pensiero scritto domani..."
-    */
-
     const thoughts = [
       "resto fino a quando torno",
-
       "sembri una prof di inglese",
-
       "quando sono a milano ma non devo lavorare mi sento un po’ in colpa, come quando da piccolo restavo a casa da scuola… hai presente?",
-
       "ho incontrato il mio match?",
-
       "noi sul balcone al freddo, io fumo, lui no. nella casa vicina, una tapparella si abbassa all’improvviso, una luce rossa dietro. “guarda!”, mi dice, prendendomi il braccio. “non vorrei sbagliarmi, ma secondo me è una prostituta.”. io mi giro, ma non c’è più nessuno dietro la finestra. due secondi dopo rientriamo e mi bacia.",
-
       "voi del nord avete la nebbia nel cervello"
     ];
 
@@ -269,10 +197,6 @@
       story.appendChild(p);
     });
 
-    /*
-      Quando si apre la pagina, il racconto parte dall'inizio.
-      L'utente può poi scorrere normalmente.
-    */
     windowEl.scrollTop = 0;
   </script>
 
