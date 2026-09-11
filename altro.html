@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Altro</title>
+
+  <style>
+    body {
+      margin: 0;
+      background: #f3f3df;
+      height: 100svh;
+      overflow: hidden;
+    }
+
+    .nav-icons {
+      position: absolute;
+      right: 3%;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 2.2vh;
+      z-index: 30;
+    }
+
+    .icon-square {
+      width: 22px;
+      height: 22px;
+      background: rgba(80, 120, 255, 0.35);
+      border-radius: 3px;
+      transition: opacity .25s ease;
+    }
+
+    .icon-circle {
+      width: 22px;
+      height: 22px;
+      background: rgba(255, 80, 80, 0.35);
+      border-radius: 50%;
+      transition: opacity .25s ease;
+    }
+
+    .icon-square:active,
+    .icon-circle:active {
+      opacity: 0.55;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="nav-icons">
+    <a href="index.html" class="icon-square"></a>
+    <a href="altro.html" class="icon-circle"></a>
+  </div>
+
+</body>
+</html>
