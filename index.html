@@ -141,10 +141,65 @@
     .story-window::-webkit-scrollbar {
       display: none;
     }
+    #intro {
+  position: fixed;
+  inset: 0;
+  background: var(--paper);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  opacity: 0;
+  animation: introFadeIn 1.2s ease forwards;
+}
+
+#intro-logo {
+  width: 140px;
+  height: auto;
+  opacity: 0;
+  animation: logoFadeIn 1.2s ease forwards;
+}
+
+@keyframes introFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes logoFadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.fade-out {
+  animation: introFadeOut 1s ease forwards;
+}
+
+@keyframes introFadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+<script>
+  window.addEventListener("load", () => {
+    const intro = document.getElementById("intro");
+    if (!intro) return;
+
+    setTimeout(() => {
+      intro.classList.add("fade-out");
+    }, 1800);
+
+    setTimeout(() => {
+      intro.remove(); // così sparisce davvero e il sito resta libero
+    }, 2800);
+  });
+</script>
+
   </style>
 </head>
 
 <body>
+  <div id="intro">
+  <img src="logo-intro.png" id="intro-logo" alt="Logo">
+</div>
 
   <!-- INTRO ANIMATO -->
   <div id="intro">
