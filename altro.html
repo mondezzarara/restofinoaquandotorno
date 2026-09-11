@@ -208,7 +208,7 @@
       const response = await fetch("canzoni.json");
       const data = await response.json();
 
-      data.tracks.forEach((track, index) => {
+      data.tracks.forEach((track) => {
         const circle = document.createElement("div");
         circle.className = "song-circle";
 
