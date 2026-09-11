@@ -42,7 +42,6 @@
       background: transparent;
     }
 
-    /* Cornice aperta sotto */
     .frame::before {
       content: "";
       position: absolute;
@@ -73,7 +72,6 @@
       pointer-events: none;
     }
 
-    /* Dissolvenza magica */
     .top-fade {
       position: absolute;
       z-index: 10;
@@ -94,7 +92,6 @@
       );
     }
 
-    /* Icone minimal */
     .nav-icons {
       position: absolute;
       right: 3%;
@@ -119,4 +116,39 @@
       height: 22px;
       background: rgba(255, 80, 80, 0.35);
       border-radius: 50%;
-      transition
+      transition: opacity .25s ease;
+    }
+
+    .icon-square:active,
+    .icon-circle:active {
+      opacity: 0.55;
+    }
+
+    @media (max-width: 700px) {
+      :root { --frame-width: 90vw; }
+      .frame { padding: 2.5vh 11% 0; }
+      .icon-square, .icon-circle {
+        width: 20px;
+        height: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="page">
+    <section class="frame">
+
+      <div class="top-fade"></div>
+
+      <div class="nav-icons">
+        <a href="index.html" class="icon-square"></a>
+        <a href="altro.html" class="icon-circle"></a>
+      </div>
+
+    </section>
+  </main>
+
+</body>
+</html>
