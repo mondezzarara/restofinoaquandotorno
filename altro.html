@@ -3,16 +3,98 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Altro</title>
+  <title>Idee Valide — Altro</title>
 
   <style>
-    body {
-      margin: 0;
-      background: #f3f3df;
-      height: 100svh;
-      overflow: hidden;
+    :root {
+      --paper: #f3f3df;
+      --ink: #050505;
+      --frame-width: min(64vw, 620px);
+      --frame-height: 100svh;
     }
 
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100svh;
+      background: var(--paper);
+      color: var(--ink);
+      overflow: hidden;
+      font-family: Helvetica, Arial, sans-serif;
+    }
+
+    .page {
+      height: 100svh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-top: 0;
+    }
+
+    .frame {
+      position: relative;
+      width: var(--frame-width);
+      height: 100%;
+      overflow: hidden;
+      padding: 3vh 10% 0;
+      background: transparent;
+    }
+
+    /* Cornice aperta sotto */
+    .frame::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border: 7px solid var(--ink);
+      border-bottom: none;
+      clip-path: polygon(
+        3% 1%, 98% 3%, 96% 38%,
+        97% 90%, 50% 95%, 4% 90%,
+        3% 68%, 5% 48%
+      );
+      filter: url("#rough");
+      pointer-events: none;
+    }
+
+    .frame::after {
+      content: "";
+      position: absolute;
+      inset: 4px -2px -2px 3px;
+      border: 4px solid var(--ink);
+      border-bottom: none;
+      clip-path: polygon(
+        4% 2%, 97% 4%, 94% 39%,
+        96% 90%, 50% 95%, 6% 90%,
+        4% 69%, 6% 48%
+      );
+      opacity: .8;
+      pointer-events: none;
+    }
+
+    /* Dissolvenza magica */
+    .top-fade {
+      position: absolute;
+      z-index: 10;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 14vh;
+      pointer-events: none;
+      background: linear-gradient(
+        to bottom,
+        var(--paper) 0%,
+        rgba(243,243,223,0.95) 10%,
+        rgba(243,243,223,0.80) 30%,
+        rgba(243,243,223,0.55) 55%,
+        rgba(243,243,223,0.30) 75%,
+        rgba(243,243,223,0.10) 90%,
+        rgba(243,243,223,0) 100%
+      );
+    }
+
+    /* Icone minimal */
     .nav-icons {
       position: absolute;
       right: 3%;
@@ -37,22 +119,4 @@
       height: 22px;
       background: rgba(255, 80, 80, 0.35);
       border-radius: 50%;
-      transition: opacity .25s ease;
-    }
-
-    .icon-square:active,
-    .icon-circle:active {
-      opacity: 0.55;
-    }
-  </style>
-</head>
-
-<body>
-
-  <div class="nav-icons">
-    <a href="index.html" class="icon-square"></a>
-    <a href="altro.html" class="icon-circle"></a>
-  </div>
-
-</body>
-</html>
+      transition
