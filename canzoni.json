@@ -1,0 +1,12 @@
+{
+  "tracks": [
+    {
+      "title": "canzone1",
+      "file": "canzone1.mp3"
+    },
+    {
+      "title": "canzone2",
+      "file": "canzone2.mp3"
+    }
+  ]
+}
