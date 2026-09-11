@@ -11,6 +11,8 @@
       --ink: #050505;
       --frame-width: min(64vw, 620px);
       --frame-height: 100svh;
+      --red: rgba(255, 80, 80, 0.30);
+      --blue: rgba(80, 120, 255, 0.30);
     }
 
     * { box-sizing: border-box; }
@@ -92,6 +94,7 @@
       );
     }
 
+    /* Interruttore */
     .nav-icons {
       position: absolute;
       right: 1%;
@@ -111,12 +114,12 @@
     }
 
     .icon-square {
-      background: rgba(80, 120, 255, 0.30);
+      background: var(--blue);
       border-radius: 3px;
     }
 
     .icon-circle {
-      background: rgba(255, 80, 80, 0.30);
+      background: var(--red);
       border-radius: 50%;
     }
 
@@ -125,13 +128,48 @@
       opacity: 0.55;
     }
 
+    /* Cerchi canzoni */
+    .songs {
+      margin-top: 10vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6vh;
+    }
+
+    .song-circle {
+      width: 85px;
+      height: 85px;
+      background: var(--red);
+      border-radius: 50%;
+      transition: opacity .25s ease;
+    }
+
+    .song-circle:active {
+      opacity: 0.55;
+    }
+
+    /* Player minimal */
+    .player-line {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 6px;
+      width: 0%;
+      background: var(--red);
+      transition: width 0.1s linear;
+    }
+
     @media (max-width: 700px) {
       :root { --frame-width: 90vw; }
       .frame { padding: 2.5vh 11% 0; }
-      .icon-square,
-      .icon-circle {
+      .icon-square, .icon-circle {
         width: 20px;
         height: 20px;
+      }
+      .song-circle {
+        width: 70px;
+        height: 70px;
       }
       .nav-icons {
         right: 2%;
@@ -152,8 +190,51 @@
         <a href="altro.html" class="icon-circle"></a>
       </div>
 
+      <div class="songs" id="songs"></div>
+
+      <div class="player-line" id="playerLine"></div>
+
+      <audio id="audio"></audio>
+
     </section>
   </main>
+
+  <script>
+    async function loadSongs() {
+      const songsContainer = document.getElementById("songs");
+      const audio = document.getElementById("audio");
+      const playerLine = document.getElementById("playerLine");
+
+      const response = await fetch("canzoni.json");
+      const data = await response.json();
+
+      data.tracks.forEach((track, index) => {
+        const circle = document.createElement("div");
+        circle.className = "song-circle";
+
+        circle.addEventListener("click", () => {
+          audio.src = track.file;
+          audio.play();
+        });
+
+        songsContainer.appendChild(circle);
+      });
+
+      audio.addEventListener("timeupdate", () => {
+        const progress = (audio.currentTime / audio.duration) * 100;
+        playerLine.style.width = progress + "%";
+      });
+
+      playerLine.addEventListener("click", (e) => {
+        const rect = playerLine.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const percent = x / rect.width;
+        audio.currentTime = percent * audio.duration;
+      });
+    }
+
+    loadSongs();
+  </script>
 
 </body>
 </html>
