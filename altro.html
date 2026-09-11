@@ -6,6 +6,53 @@
   <title>Idee Valide — Altro</title>
 
   <style>
+    .nav-icons {
+  position: absolute;
+  right: 1.2%; /* molto più a destra */
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 0; /* ATTACCATI */
+  z-index: 30;
+}
+
+/* Quadrato blu pallido */
+.icon-square {
+  width: 22px;
+  height: 22px;
+  background: rgba(80, 120, 255, 0.35);
+  border-radius: 3px;
+  transition: opacity .25s ease;
+}
+
+/* Cerchio rosso pallido */
+.icon-circle {
+  width: 22px;
+  height: 22px;
+  background: rgba(255, 80, 80, 0.35);
+  border-radius: 50%;
+  transition: opacity .25s ease;
+}
+
+/* Effetto interruttore */
+.icon-square:active,
+.icon-circle:active {
+  opacity: 0.55;
+}
+
+@media (max-width: 700px) {
+  .nav-icons {
+    right: 2.5%; /* più a destra anche su mobile */
+  }
+
+  .icon-square,
+  .icon-circle {
+    width: 20px;
+    height: 20px;
+  }
+}
+
     :root {
       --paper: #f3f3df;
       --ink: #050505;
@@ -141,6 +188,10 @@
     <section class="frame">
 
       <div class="top-fade"></div>
+<div class="nav-icons">
+  <a href="index.html" class="icon-square"></a>
+  <a href="altro.html" class="icon-circle"></a>
+</div>
 
       <div class="nav-icons">
         <a href="index.html" class="icon-square"></a>
