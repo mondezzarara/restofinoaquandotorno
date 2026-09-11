@@ -4,9 +4,144 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ideevalide</title>
-
-  <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/png" href="favicon.png">
+
+  <style>
+    :root {
+      --paper: #f3f3df;
+      --ink: #050505;
+      --frame-width: min(64vw, 620px);
+      --frame-height: 82vh;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      width: 100%;
+      min-height: 100%;
+      background: var(--paper);
+      color: var(--ink);
+    }
+
+    body {
+      font-family: Helvetica, Arial, sans-serif;
+      overflow: hidden;
+    }
+
+    /* INTRO FULLSCREEN */
+    #intro {
+      position: fixed;
+      inset: 0;
+      background: var(--paper);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      opacity: 0;
+      animation: introFadeIn 1.2s ease forwards;
+    }
+
+    #intro-logo {
+      width: 140px;
+      height: auto;
+      opacity: 0;
+      animation: logoFadeIn 1.2s ease forwards;
+    }
+
+    @keyframes introFadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes logoFadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .fade-out {
+      animation: introFadeOut 1s ease forwards;
+    }
+
+    @keyframes introFadeOut {
+      from { opacity: 1; }
+      to { opacity: 0; }
+    }
+
+    /* QUI CONTINUA TUTTO IL TUO CSS ORIGINALE */
+    .instruction {
+      position: fixed;
+      top: 4vh;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(90vw, 900px);
+      text-align: center;
+      font-size: clamp(15px, 1.8vw, 25px);
+      line-height: .95;
+      font-weight: 900;
+      z-index: 20;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-top: 8vh;
+    }
+
+    .frame {
+      position: relative;
+      width: var(--frame-width);
+      height: var(--frame-height);
+      overflow: hidden;
+      padding: 18vh 8% 8vh;
+      background: transparent;
+    }
+
+    .frame::before,
+    .frame::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .frame::before {
+      border: 7px solid var(--ink);
+      clip-path: polygon(
+        3% 1%, 98% 3%, 96% 38%, 97% 100%,
+        4% 100%, 3% 68%, 5% 48%
+      );
+      filter: url("#rough");
+    }
+
+    .frame::after {
+      inset: 4px -2px -2px 3px;
+      border: 4px solid var(--ink);
+      clip-path: polygon(
+        4% 2%, 97% 4%, 94% 39%, 96% 100%,
+        6% 100%, 4% 69%, 6% 48%
+      );
+      opacity: .8;
+    }
+
+    .story-window {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow-y: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      overscroll-behavior: contain;
+    }
+
+    .story-window::-webkit-scrollbar {
+      display: none;
+    }
+  </style>
 </head>
 
 <body>
@@ -16,21 +151,24 @@
     <img src="logo-intro.png" id="intro-logo" alt="Logo">
   </div>
 
-  <!-- CONTENUTO DEL RACCONTO -->
-  <div id="content">
-    <!-- QUI C'È IL TUO SITO, NON TOCCO NULLA -->
-    <!-- Tutto il tuo racconto rimane identico -->
+  <!-- IL TUO SITO ORIGINALE -->
+  <div class="instruction">SCORRI PER LEGGERE</div>
+
+  <div class="page">
+    <div class="frame">
+      <div class="story-window">
+        <!-- QUI C'È IL TUO RACCONTO -->
+      </div>
+    </div>
   </div>
 
   <!-- SCRIPT INTRO -->
   <script>
     window.addEventListener("load", () => {
-      // Fade-out dopo 1.8 secondi
       setTimeout(() => {
         document.getElementById("intro").classList.add("fade-out");
       }, 1800);
 
-      // Rimozione intro dopo la dissolvenza
       setTimeout(() => {
         document.getElementById("intro").style.display = "none";
       }, 2800);
@@ -38,5 +176,4 @@
   </script>
 
 </body>
-
 </html>
