@@ -42,7 +42,6 @@
       background: transparent;
     }
 
-    /* Cornice aperta sotto */
     .frame::before {
       content: "";
       position: absolute;
@@ -73,7 +72,6 @@
       pointer-events: none;
     }
 
-    /* Dissolvenza magica */
     .top-fade {
       position: absolute;
       z-index: 10;
@@ -94,7 +92,6 @@
       );
     }
 
-    /* Icone minimal */
     .nav-icons {
       position: absolute;
       right: 3%;
@@ -123,4 +120,110 @@
     }
 
     .icon-square:active,
-    .icon-circle
+    .icon-circle:active {
+      opacity: 0.55;
+    }
+
+    .story-window {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow-y: auto;
+      scrollbar-width: none;
+      overscroll-behavior: contain;
+    }
+
+    .story-window::-webkit-scrollbar { display: none; }
+
+    .story {
+      width: 100%;
+      padding-top: 2.5vh;
+      padding-bottom: 0;
+    }
+
+    .paragraph {
+      margin: 0 0 1.2em;
+      padding: 0;
+      text-align: justify;
+      text-align-last: left;
+      font-weight: 700;
+      font-size: clamp(20px, 5vw, 32px);
+      line-height: .95;
+      letter-spacing: -0.045em;
+      word-spacing: -0.02em;
+    }
+
+    @media (max-width: 700px) {
+      :root { --frame-width: 90vw; }
+      .frame { padding: 2.5vh 11% 0; }
+      .icon-square, .icon-circle {
+        width: 20px;
+        height: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="page">
+    <section class="frame">
+
+      <div class="top-fade"></div>
+
+      <div class="nav-icons">
+        <a href="index.html" class="icon-square"></a>
+        <a href="altro.html" class="icon-circle"></a>
+      </div>
+
+      <div class="story-window" id="storyWindow">
+        <div class="story" id="story"></div>
+      </div>
+
+    </section>
+  </main>
+
+  <script>
+    async function loadStory() {
+      const storyEl = document.getElementById("story");
+      const windowEl = document.getElementById("storyWindow");
+
+      try {
+        const response = await fetch("racconto.txt");
+        const text = await response.text();
+
+        const lines = text
+          .split("\n")
+          .map(line => line.trim())
+          .filter(line => line.length > 0);
+
+        lines.forEach(line => {
+          const p = document.createElement("p");
+          p.className = "paragraph";
+          p.textContent = line;
+          storyEl.appendChild(p);
+        });
+
+        const savedScroll = localStorage.getItem("scrollPosition");
+        if (savedScroll !== null) {
+          requestAnimationFrame(() => {
+            windowEl.scrollTop = parseInt(savedScroll, 10);
+          });
+        } else {
+          windowEl.scrollTop = 0;
+        }
+
+        windowEl.addEventListener("scroll", () => {
+          localStorage.setItem("scrollPosition", windowEl.scrollTop);
+        });
+
+      } catch (e) {
+        console.error("Impossibile caricare il racconto:", e);
+      }
+    }
+
+    loadStory();
+  </script>
+
+</body>
+</html>
