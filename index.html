@@ -7,10 +7,9 @@
 
   <style>
     :root {
-      --paper: #f3f3df;
+      --paper: #f5f2e6; /* SOFT IVORY */
       --ink: #050505;
       --frame-width: min(64vw, 620px);
-      --frame-height: 100svh;
     }
 
     * { box-sizing: border-box; }
@@ -25,7 +24,7 @@
       font-family: Helvetica, Arial, sans-serif;
     }
 
-    /* INTRO LOGO */
+    /* INTRO */
     #intro {
       position: fixed;
       inset: 0;
@@ -40,47 +39,29 @@
 
     #intro-logo {
       width: 140px;
-      height: auto;
       opacity: 0;
       animation: logoFadeIn 1.2s ease forwards;
     }
 
-    @keyframes introFadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
+    @keyframes introFadeIn { from { opacity:0; } to { opacity:1; } }
+    @keyframes logoFadeIn { from { opacity:0; transform:scale(.95);} to { opacity:1; transform:scale(1);} }
+    @keyframes introFadeOut { from { opacity:1; } to { opacity:0; } }
 
-    @keyframes logoFadeIn {
-      from { opacity: 0; transform: scale(0.95); }
-      to { opacity: 1; transform: scale(1); }
-    }
-
-    .fade-out {
-      animation: introFadeOut 1s ease forwards;
-    }
-
-    @keyframes introFadeOut {
-      from { opacity: 1; }
-      to { opacity: 0; }
-    }
+    .fade-out { animation: introFadeOut 1s ease forwards; }
 
     /* FADE-IN DEL SITO */
     #site-content {
       opacity: 0;
-      transition: opacity 0.8s ease;
+      transition: opacity .8s ease;
     }
+    #site-content.visible { opacity: 1; }
 
-    #site-content.visible {
-      opacity: 1;
-    }
-
-    /* TUTTO IL TUO SITO ORIGINALE */
+    /* FRAME */
     .page {
       height: 100svh;
       display: flex;
       justify-content: center;
       align-items: center;
-      padding-top: 0;
     }
 
     .frame {
@@ -89,60 +70,28 @@
       height: 100%;
       overflow: hidden;
       padding: 3vh 10% 0;
-      background: transparent;
     }
 
-    .frame::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border: 7px solid var(--ink);
-      border-bottom: none;
-      clip-path: polygon(
-        3% 1%, 98% 3%, 96% 38%,
-        97% 90%, 50% 95%, 4% 90%,
-        3% 68%, 5% 48%
-      );
-      filter: url("#rough");
-      pointer-events: none;
-    }
-
-    .frame::after {
-      content: "";
-      position: absolute;
-      inset: 4px -2px -2px 3px;
-      border: 4px solid var(--ink);
-      border-bottom: none;
-      clip-path: polygon(
-        4% 2%, 97% 4%, 94% 39%,
-        96% 90%, 50% 95%, 6% 90%,
-        4% 69%, 6% 48%
-      );
-      opacity: .8;
-      pointer-events: none;
-    }
-
+    /* TOP FADE */
     .top-fade {
       position: absolute;
-      z-index: 10;
       top: 0;
-      left: 0;
       width: 100%;
       height: 14vh;
-      pointer-events: none;
       background: linear-gradient(
         to bottom,
         var(--paper) 0%,
-        rgba(243,243,223,0.95) 10%,
-        rgba(243,243,223,0.80) 30%,
-        rgba(243,243,223,0.55) 55%,
-        rgba(243,243,223,0.30) 75%,
-        rgba(243,243,223,0.10) 90%,
-        rgba(243,243,223,0) 100%
+        rgba(245,242,230,0.95) 10%,
+        rgba(245,242,230,0.80) 30%,
+        rgba(245,242,230,0.55) 55%,
+        rgba(245,242,230,0.30) 75%,
+        rgba(245,242,230,0.10) 90%,
+        rgba(245,242,230,0) 100%
       );
+      pointer-events: none;
     }
 
-    /* ICONE MINIMALI, ATTACCATE, PALLIDE */
+    /* ICONE */
     .nav-icons {
       position: absolute;
       right: 1%;
@@ -163,77 +112,54 @@
     }
 
     .icon-square {
-      background: rgba(80, 120, 255, 0.30);
+      background: rgba(80,120,255,0.30);
       border-radius: 3px;
     }
 
     .icon-circle {
-      background: rgba(255, 80, 80, 0.30);
+      background: rgba(255,80,80,0.30);
       border-radius: 50%;
     }
 
-    /* TRIANGOLO VIOLA */
     .icon-triangle {
-      background: rgba(180, 80, 255, 0.30);
+      background: rgba(180,80,255,0.30);
       clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
     }
 
     .icon-square:active,
     .icon-circle:active,
     .icon-triangle:active {
-      opacity: 0.55;
+      opacity: .55;
     }
 
+    /* RACCONTO */
     .story-window {
-      position: relative;
       width: 100%;
       height: 100%;
       overflow-y: auto;
       scrollbar-width: none;
-      overscroll-behavior: contain;
     }
-
-    .story-window::-webkit-scrollbar { display: none; }
+    .story-window::-webkit-scrollbar { display:none; }
 
     .story {
-      width: 100%;
       padding-top: 2.5vh;
-      padding-bottom: 0;
     }
 
     .paragraph {
       margin: 0 0 1.2em;
-      padding: 0;
-      text-align: justify;
-      text-align-last: left;
       font-weight: 700;
-      font-size: clamp(20px, 5vw, 32px);
+      font-size: clamp(20px,5vw,32px);
       line-height: .95;
       letter-spacing: -0.045em;
-      word-spacing: -0.02em;
-    }
-
-    @media (max-width: 700px) {
-      :root { --frame-width: 90vw; }
-      .frame { padding: 2.5vh 11% 0; }
-      .icon-square,
-      .icon-circle,
-      .icon-triangle {
-        width: 20px;
-        height: 20px;
-      }
-      .nav-icons {
-        right: 2%;
-      }
     }
   </style>
 </head>
 
 <body>
 
-  <!-- INTRO LOGO -->
+  <!-- INTRO -->
   <div id="intro">
-    <img src="logo-intro.png" id="intro-logo" alt="Logo">
+    <img src="logo-intro.png" id="intro-logo">
   </div>
 
   <!-- SITO -->
@@ -262,38 +188,26 @@
       const storyEl = document.getElementById("story");
       const windowEl = document.getElementById("storyWindow");
 
-      try {
-        const response = await fetch("racconto.txt");
-        const text = await response.text();
+      const response = await fetch("racconto.txt");
+      const text = await response.text();
 
-        const lines = text
-          .split("\n")
-          .map(line => line.trim())
-          .filter(line => line.length > 0);
+      const lines = text.split("\n").map(l => l.trim()).filter(l => l.length>0);
 
-        lines.forEach(line => {
-          const p = document.createElement("p");
-          p.className = "paragraph";
-          p.textContent = line;
-          storyEl.appendChild(p);
-        });
+      lines.forEach(line => {
+        const p = document.createElement("p");
+        p.className = "paragraph";
+        p.textContent = line;
+        storyEl.appendChild(p);
+      });
 
-        const savedScroll = localStorage.getItem("scrollPosition");
-        if (savedScroll !== null) {
-          requestAnimationFrame(() => {
-            windowEl.scrollTop = parseInt(savedScroll, 10);
-          });
-        } else {
-          windowEl.scrollTop = 0;
-        }
-
-        windowEl.addEventListener("scroll", () => {
-          localStorage.setItem("scrollPosition", windowEl.scrollTop);
-        });
-
-      } catch (e) {
-        console.error("Impossibile caricare il racconto:", e);
+      const savedScroll = localStorage.getItem("scrollPosition");
+      if (savedScroll !== null) {
+        requestAnimationFrame(() => windowEl.scrollTop = parseInt(savedScroll,10));
       }
+
+      windowEl.addEventListener("scroll", () => {
+        localStorage.setItem("scrollPosition", windowEl.scrollTop);
+      });
     }
 
     loadStory();
@@ -302,14 +216,8 @@
       const intro = document.getElementById("intro");
       const site = document.getElementById("site-content");
 
-      setTimeout(() => {
-        intro.classList.add("fade-out");
-      }, 1800);
-
-      setTimeout(() => {
-        intro.remove();
-        site.classList.add("visible");
-      }, 2800);
+      setTimeout(() => intro.classList.add("fade-out"), 1800);
+      setTimeout(() => { intro.remove(); site.classList.add("visible"); }, 2800);
     });
   </script>
 
