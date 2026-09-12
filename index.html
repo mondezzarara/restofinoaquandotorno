@@ -3,15 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ideevalide</title>
-  <link rel="icon" type="image/png" href="favicon.png">
+  <title>Idee Valide — Racconto</title>
 
   <style>
     :root {
       --paper: #f3f3df;
       --ink: #050505;
       --frame-width: min(64vw, 620px);
-      --frame-height: 82vh;
+      --frame-height: 100svh;
     }
 
     * { box-sizing: border-box; }
@@ -19,17 +18,14 @@
     html, body {
       margin: 0;
       width: 100%;
-      min-height: 100%;
+      height: 100svh;
       background: var(--paper);
       color: var(--ink);
-    }
-
-    body {
-      font-family: Helvetica, Arial, sans-serif;
       overflow: hidden;
+      font-family: Helvetica, Arial, sans-serif;
     }
 
-    /* INTRO */
+    /* INTRO LOGO */
     #intro {
       position: fixed;
       inset: 0;
@@ -68,49 +64,104 @@
       to { opacity: 0; }
     }
 
-    /* FRAME + STORY (il tuo layout originale) */
     .page {
-      min-height: 100vh;
+      height: 100svh;
       display: flex;
       justify-content: center;
       align-items: center;
-      padding-top: 8vh;
+      padding-top: 0;
     }
 
     .frame {
       position: relative;
       width: var(--frame-width);
-      height: var(--frame-height);
+      height: 100%;
       overflow: hidden;
-      padding: 18vh 8% 8vh;
+      padding: 3vh 10% 0;
       background: transparent;
     }
 
-    .frame::before,
-    .frame::after {
+    .frame::before {
       content: "";
       position: absolute;
       inset: 0;
+      border: 7px solid var(--ink);
+      border-bottom: none;
+      clip-path: polygon(
+        3% 1%, 98% 3%, 96% 38%,
+        97% 90%, 50% 95%, 4% 90%,
+        3% 68%, 5% 48%
+      );
+      filter: url("#rough");
       pointer-events: none;
     }
 
-    .frame::before {
-      border: 7px solid var(--ink);
-      clip-path: polygon(
-        3% 1%, 98% 3%, 96% 38%, 97% 100%,
-        4% 100%, 3% 68%, 5% 48%
-      );
-      filter: url("#rough");
-    }
-
     .frame::after {
+      content: "";
+      position: absolute;
       inset: 4px -2px -2px 3px;
       border: 4px solid var(--ink);
+      border-bottom: none;
       clip-path: polygon(
-        4% 2%, 97% 4%, 94% 39%, 96% 100%,
-        6% 100%, 4% 69%, 6% 48%
+        4% 2%, 97% 4%, 94% 39%,
+        96% 90%, 50% 95%, 6% 90%,
+        4% 69%, 6% 48%
       );
       opacity: .8;
+      pointer-events: none;
+    }
+
+    .top-fade {
+      position: absolute;
+      z-index: 10;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 14vh;
+      pointer-events: none;
+      background: linear-gradient(
+        to bottom,
+        var(--paper) 0%,
+        rgba(243,243,223,0.95) 10%,
+        rgba(243,243,223,0.80) 30%,
+        rgba(243,243,223,0.55) 55%,
+        rgba(243,243,223,0.30) 75%,
+        rgba(243,243,223,0.10) 90%,
+        rgba(243,243,223,0) 100%
+      );
+    }
+
+    .nav-icons {
+      position: absolute;
+      right: 1%;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      z-index: 30;
+    }
+
+    .icon-square,
+    .icon-circle {
+      width: 22px;
+      height: 22px;
+      transition: opacity .25s ease;
+    }
+
+    .icon-square {
+      background: rgba(80, 120, 255, 0.30);
+      border-radius: 3px;
+    }
+
+    .icon-circle {
+      background: rgba(255, 80, 80, 0.30);
+      border-radius: 50%;
+    }
+
+    .icon-square:active,
+    .icon-circle:active {
+      opacity: 0.55;
     }
 
     .story-window {
@@ -119,43 +170,119 @@
       height: 100%;
       overflow-y: auto;
       scrollbar-width: none;
-      -ms-overflow-style: none;
       overscroll-behavior: contain;
     }
 
-    .story-window::-webkit-scrollbar {
-      display: none;
+    .story-window::-webkit-scrollbar { display: none; }
+
+    .story {
+      width: 100%;
+      padding-top: 2.5vh;
+      padding-bottom: 0;
+    }
+
+    .paragraph {
+      margin: 0 0 1.2em;
+      padding: 0;
+      text-align: justify;
+      text-align-last: left;
+      font-weight: 700;
+      font-size: clamp(20px, 5vw, 32px);
+      line-height: .95;
+      letter-spacing: -0.045em;
+      word-spacing: -0.02em;
+    }
+
+    @media (max-width: 700px) {
+      :root { --frame-width: 90vw; }
+      .frame { padding: 2.5vh 11% 0; }
+      .icon-square,
+      .icon-circle {
+        width: 20px;
+        height: 20px;
+      }
+      .nav-icons {
+        right: 2%;
+      }
     }
   </style>
 </head>
 
 <body>
 
-  <!-- INTRO -->
+  <!-- INTRO LOGO -->
   <div id="intro">
     <img src="logo-intro.png" id="intro-logo" alt="Logo">
   </div>
 
-  <!-- IL TUO RACCONTO -->
-  <div class="page">
-    <div class="frame">
-      <div class="story-window">
-        <!-- QUI METTI IL TUO TESTO DEL RACCONTO -->
-      </div>
-    </div>
-  </div>
+  <main class="page">
+    <section class="frame">
 
-  <!-- SCRIPT -->
+      <div class="top-fade"></div>
+
+      <div class="nav-icons">
+        <a href="index.html" class="icon-square"></a>
+        <a href="altro.html" class="icon-circle"></a>
+      </div>
+
+      <div class="story-window" id="storyWindow">
+        <div class="story" id="story"></div>
+      </div>
+
+    </section>
+  </main>
+
   <script>
+    async function loadStory() {
+      const storyEl = document.getElementById("story");
+      const windowEl = document.getElementById("storyWindow");
+
+      try {
+        const response = await fetch("racconto.txt");
+        const text = await response.text();
+
+        const lines = text
+          .split("\n")
+          .map(line => line.trim())
+          .filter(line => line.length > 0);
+
+        lines.forEach(line => {
+          const p = document.createElement("p");
+          p.className = "paragraph";
+          p.textContent = line;
+          storyEl.appendChild(p);
+        });
+
+        const savedScroll = localStorage.getItem("scrollPosition");
+        if (savedScroll !== null) {
+          requestAnimationFrame(() => {
+            windowEl.scrollTop = parseInt(savedScroll, 10);
+          });
+        } else {
+          windowEl.scrollTop = 0;
+        }
+
+        windowEl.addEventListener("scroll", () => {
+          localStorage.setItem("scrollPosition", windowEl.scrollTop);
+        });
+
+      } catch (e) {
+        console.error("Impossibile caricare il racconto:", e);
+      }
+    }
+
+    loadStory();
+
     window.addEventListener("load", () => {
       const intro = document.getElementById("intro");
+      if (!intro) return;
 
       setTimeout(() => {
         intro.classList.add("fade-out");
       }, 1800);
 
       setTimeout(() => {
-        intro.remove(); // sparisce DAVVERO
+        intro.remove();
       }, 2800);
     });
   </script>
