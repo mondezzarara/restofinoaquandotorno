@@ -64,6 +64,17 @@
       to { opacity: 0; }
     }
 
+    /* FADE-IN DEL RACCONTO */
+    #site-content {
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+
+    #site-content.visible {
+      opacity: 1;
+    }
+
+    /* TUTTO IL TUO SITO ORIGINALE */
     .page {
       height: 100svh;
       display: flex;
@@ -215,22 +226,25 @@
     <img src="logo-intro.png" id="intro-logo" alt="Logo">
   </div>
 
-  <main class="page">
-    <section class="frame">
+  <!-- TUTTO IL SITO (inizialmente nascosto) -->
+  <div id="site-content">
+    <main class="page">
+      <section class="frame">
 
-      <div class="top-fade"></div>
+        <div class="top-fade"></div>
 
-      <div class="nav-icons">
-        <a href="index.html" class="icon-square"></a>
-        <a href="altro.html" class="icon-circle"></a>
-      </div>
+        <div class="nav-icons">
+          <a href="index.html" class="icon-square"></a>
+          <a href="altro.html" class="icon-circle"></a>
+        </div>
 
-      <div class="story-window" id="storyWindow">
-        <div class="story" id="story"></div>
-      </div>
+        <div class="story-window" id="storyWindow">
+          <div class="story" id="story"></div>
+        </div>
 
-    </section>
-  </main>
+      </section>
+    </main>
+  </div>
 
   <script>
     async function loadStory() {
@@ -275,7 +289,7 @@
 
     window.addEventListener("load", () => {
       const intro = document.getElementById("intro");
-      if (!intro) return;
+      const site = document.getElementById("site-content");
 
       setTimeout(() => {
         intro.classList.add("fade-out");
@@ -283,6 +297,7 @@
 
       setTimeout(() => {
         intro.remove();
+        site.classList.add("visible");
       }, 2800);
     });
   </script>
