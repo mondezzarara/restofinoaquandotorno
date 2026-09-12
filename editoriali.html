@@ -31,26 +31,19 @@
       padding-top: 4vh;
     }
 
-    .editorial-card {
+    /* FOTO COVER EDITORIALE */
+    .editorial-cover {
       width: min(90vw, 600px);
       height: 28vh;
       background-size: cover;
       background-position: center;
       border-radius: 6px;
-      border: 4px solid var(--ink);
       cursor: pointer;
       transition: opacity .25s ease;
     }
 
-    .editorial-card:active {
+    .editorial-cover:active {
       opacity: 0.6;
-    }
-
-    .editorial-title {
-      margin-top: 1.5vh;
-      font-size: clamp(20px, 4vw, 32px);
-      font-weight: 700;
-      text-align: center;
     }
   </style>
 </head>
@@ -59,11 +52,11 @@
 
   <main class="page">
 
+    <!-- COVER EDITORIALE 1 (solo foto, nessuna scritta) -->
     <a href="editoriale1.html" style="text-decoration:none; color:inherit;">
-      <div class="editorial-card"
+      <div class="editorial-cover"
            style="background-image:url('editoriale1-cover.jpg');">
       </div>
-      <div class="editorial-title">Editoriale di Test</div>
     </a>
 
   </main>
