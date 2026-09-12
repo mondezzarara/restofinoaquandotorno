@@ -7,7 +7,7 @@
 
   <style>
     :root {
-      --paper: #f5f2e6;
+      --paper: #f5f2e6; /* Soft Ivory */
       --ink: #050505;
     }
 
@@ -23,10 +23,10 @@
       overflow: hidden;
     }
 
-    /* FADE-IN PAGINA */
+    /* FADE-IN */
     #content {
       opacity: 0;
-      transition: opacity 0.8s ease;
+      transition: opacity .8s ease;
     }
     #content.visible {
       opacity: 1;
@@ -46,7 +46,7 @@
       padding: 3vh 10% 0;
     }
 
-    /* TASTI A DESTRA (UGUALI A EDITORIALI) */
+    /* TASTI A DESTRA (come editoriali.html) */
     .nav-icons {
       position: absolute;
       right: 1%;
@@ -63,37 +63,37 @@
     .icon-triangle {
       width: 22px;
       height: 22px;
-      transition: opacity 0.25s ease;
+      transition: opacity .25s ease;
     }
 
     .icon-square {
-      background: rgba(80, 120, 255, 0.30);
+      background: rgba(80,120,255,0.30);
       border-radius: 3px;
     }
 
     .icon-circle {
-      background: rgba(255, 80, 80, 0.30);
+      background: rgba(255,80,80,0.30);
       border-radius: 50%;
     }
 
     .icon-triangle {
-      background: rgba(180, 80, 255, 0.30);
+      background: rgba(180,80,255,0.30);
       clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
     }
 
     .icon-square:active,
     .icon-circle:active,
     .icon-triangle:active {
-      opacity: 0.55;
+      opacity: .55;
     }
 
-    /* LAYOUT MUSICA: CERCHI + LINEA SOTTILE, PULITI */
+    /* CERCHI DELLE CANZONI */
     .music-layout {
       width: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 3vh;
+      gap: 4vh;
       margin-top: 6vh;
     }
 
@@ -101,14 +101,25 @@
       width: 46px;
       height: 46px;
       border-radius: 50%;
-      background: rgba(255, 80, 80, 0.30);
+      background: rgba(255,80,80,0.30);
+      cursor: pointer;
+      transition: opacity .25s ease;
     }
 
-    .track-line {
-      width: 70%;
+    .track-circle:active {
+      opacity: .55;
+    }
+
+    /* LINEA PLAYER */
+    .player-line {
+      width: 100%;
       height: 3px;
-      background: rgba(255, 80, 80, 0.30);
+      background: rgba(255,80,80,0.30);
       border-radius: 999px;
+      margin-top: 2vh;
+      transform-origin: left;
+      transform: scaleX(0);
+      transition: transform linear;
     }
   </style>
 </head>
@@ -119,31 +130,73 @@
     <main class="page">
       <section class="frame">
 
+        <!-- TASTI -->
         <div class="nav-icons">
           <a href="index.html" class="icon-square"></a>
           <a href="altro.html" class="icon-circle"></a>
           <a href="editoriali.html" class="icon-triangle"></a>
         </div>
 
+        <!-- MUSICA -->
         <div class="music-layout">
-          <div class="track-circle"></div>
-          <div class="track-line"></div>
 
-          <div class="track-circle"></div>
-          <div class="track-line"></div>
+          <!-- CANZONE 1 -->
+          <div class="track-circle" onclick="playSong(1)"></div>
+          <div class="player-line" id="line1"></div>
 
-          <div class="track-circle"></div>
-          <div class="track-line"></div>
+          <!-- CANZONE 2 -->
+          <div class="track-circle" onclick="playSong(2)"></div>
+          <div class="player-line" id="line2"></div>
+
+          <!-- CANZONE 3 -->
+          <div class="track-circle" onclick="playSong(3)"></div>
+          <div class="player-line" id="line3"></div>
+
         </div>
 
       </section>
     </main>
   </div>
 
+  <!-- AUDIO: NOMI COME LI HAI CARICATI -->
+  <audio id="canzone1" src="canzone1.mp3"></audio>
+  <audio id="canzone2" src="canzone2.mp3"></audio>
+  <audio id="canzone3" src="canzone3.mp3"></audio>
+
   <script>
     window.addEventListener("load", () => {
       document.getElementById("content").classList.add("visible");
     });
+
+    function playSong(n) {
+      const audioId = "canzone" + n;
+      const lineId = "line" + n;
+
+      const audio = document.getElementById(audioId);
+      const line = document.getElementById(lineId);
+
+      /* Stop all songs */
+      ["canzone1","canzone2","canzone3"].forEach(id => {
+        const a = document.getElementById(id);
+        a.pause();
+        a.currentTime = 0;
+      });
+
+      /* Reset all lines */
+      ["line1","line2","line3"].forEach(id => {
+        const l = document.getElementById(id);
+        l.style.transitionDuration = "0s";
+        l.style.transform = "scaleX(0)";
+      });
+
+      /* Play selected */
+      audio.play();
+
+      /* Animate line */
+      const duration = audio.duration || 5; // fallback
+      line.style.transitionDuration = duration + "s";
+      line.style.transform = "scaleX(1)";
+    }
   </script>
 
 </body>
