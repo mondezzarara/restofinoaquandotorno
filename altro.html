@@ -1,113 +1,150 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Canzoni</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Canzoni</title>
 
-<style>
-  :root {
-    --paper: #f5f2e6;
-    --ink: #050505;
-  }
+  <style>
+    :root {
+      --paper: #f5f2e6;
+      --ink: #050505;
+    }
 
-  * { box-sizing: border-box; }
+    * { box-sizing: border-box; }
 
-  html, body {
-    margin: 0;
-    width: 100%;
-    height: 100svh;
-    background: var(--paper);
-    color: var(--ink);
-    font-family: Helvetica, Arial, sans-serif;
-    overflow: hidden;
-  }
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100svh;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: Helvetica, Arial, sans-serif;
+      overflow: hidden;
+    }
 
-  /* ANIMAZIONE */
-  #content { opacity:0; transition:opacity .8s ease; }
-  #content.visible { opacity:1; }
+    /* FADE-IN PAGINA */
+    #content {
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+    #content.visible {
+      opacity: 1;
+    }
 
-  .page {
-    height: 100svh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-  }
+    .page {
+      height: 100svh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-  .frame {
-    position:relative;
-    width:min(64vw,620px);
-    height:100%;
-    padding:3vh 10% 0;
-  }
+    .frame {
+      position: relative;
+      width: min(64vw, 620px);
+      height: 100%;
+      padding: 3vh 10% 0;
+    }
 
-  /* ICONE */
-  .nav-icons {
-    position:absolute;
-    right:1%;
-    top:50%;
-    transform:translateY(-50%);
-    display:flex;
-    flex-direction:column;
-    gap:0;
-  }
+    /* TASTI A DESTRA (UGUALI A EDITORIALI) */
+    .nav-icons {
+      position: absolute;
+      right: 1%;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      z-index: 30;
+    }
 
-  .icon-square,
-  .icon-circle,
-  .icon-triangle {
-    width:22px;
-    height:22px;
-  }
+    .icon-square,
+    .icon-circle,
+    .icon-triangle {
+      width: 22px;
+      height: 22px;
+      transition: opacity 0.25s ease;
+    }
 
-  .icon-square { background:rgba(80,120,255,.30); border-radius:3px; }
-  .icon-circle { background:rgba(255,80,80,.30); border-radius:50%; }
-  .icon-triangle { background:rgba(180,80,255,.30); clip-path:polygon(50%0%,0%100%,100%100%); }
+    .icon-square {
+      background: rgba(80, 120, 255, 0.30);
+      border-radius: 3px;
+    }
 
-  /* CANZONI */
-  .song {
-    width:100%;
-    height:120px;
-    background:rgba(255,80,80,.30);
-    border-radius:50%;
-    margin-bottom:4vh;
-  }
+    .icon-circle {
+      background: rgba(255, 80, 80, 0.30);
+      border-radius: 50%;
+    }
 
-  .player {
-    width:100%;
-    height:4px;
-    background:rgba(255,80,80,.30);
-    margin-bottom:4vh;
-  }
-</style>
+    .icon-triangle {
+      background: rgba(180, 80, 255, 0.30);
+      clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    }
+
+    .icon-square:active,
+    .icon-circle:active,
+    .icon-triangle:active {
+      opacity: 0.55;
+    }
+
+    /* LAYOUT MUSICA: CERCHI + LINEA SOTTILE, PULITI */
+    .music-layout {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3vh;
+      margin-top: 6vh;
+    }
+
+    .track-circle {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: rgba(255, 80, 80, 0.30);
+    }
+
+    .track-line {
+      width: 70%;
+      height: 3px;
+      background: rgba(255, 80, 80, 0.30);
+      border-radius: 999px;
+    }
+  </style>
 </head>
 
 <body>
 
-<div id="content">
-  <main class="page">
-    <section class="frame">
+  <div id="content">
+    <main class="page">
+      <section class="frame">
 
-      <div class="nav-icons">
-        <a href="index.html" class="icon-square"></a>
-        <a href="altro.html" class="icon-circle"></a>
-        <a href="editoriali.html" class="icon-triangle"></a>
-      </div>
+        <div class="nav-icons">
+          <a href="index.html" class="icon-square"></a>
+          <a href="altro.html" class="icon-circle"></a>
+          <a href="editoriali.html" class="icon-triangle"></a>
+        </div>
 
-      <div class="song"></div>
-      <div class="player"></div>
+        <div class="music-layout">
+          <div class="track-circle"></div>
+          <div class="track-line"></div>
 
-      <div class="song"></div>
-      <div class="player"></div>
+          <div class="track-circle"></div>
+          <div class="track-line"></div>
 
-    </section>
-  </main>
-</div>
+          <div class="track-circle"></div>
+          <div class="track-line"></div>
+        </div>
 
-<script>
-window.addEventListener("load", () => {
-  document.getElementById("content").classList.add("visible");
-});
-</script>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    window.addEventListener("load", () => {
+      document.getElementById("content").classList.add("visible");
+    });
+  </script>
 
 </body>
 </html>
