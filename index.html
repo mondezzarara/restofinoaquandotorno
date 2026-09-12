@@ -64,7 +64,7 @@
       to { opacity: 0; }
     }
 
-    /* FADE-IN DEL RACCONTO */
+    /* FADE-IN DEL SITO */
     #site-content {
       opacity: 0;
       transition: opacity 0.8s ease;
@@ -142,6 +142,7 @@
       );
     }
 
+    /* ICONE MINIMALI, ATTACCATE, PALLIDE */
     .nav-icons {
       position: absolute;
       right: 1%;
@@ -154,7 +155,8 @@
     }
 
     .icon-square,
-    .icon-circle {
+    .icon-circle,
+    .icon-triangle {
       width: 22px;
       height: 22px;
       transition: opacity .25s ease;
@@ -170,8 +172,15 @@
       border-radius: 50%;
     }
 
+    /* TRIANGOLO VIOLA */
+    .icon-triangle {
+      background: rgba(180, 80, 255, 0.30);
+      clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    }
+
     .icon-square:active,
-    .icon-circle:active {
+    .icon-circle:active,
+    .icon-triangle:active {
       opacity: 0.55;
     }
 
@@ -208,7 +217,8 @@
       :root { --frame-width: 90vw; }
       .frame { padding: 2.5vh 11% 0; }
       .icon-square,
-      .icon-circle {
+      .icon-circle,
+      .icon-triangle {
         width: 20px;
         height: 20px;
       }
@@ -226,7 +236,7 @@
     <img src="logo-intro.png" id="intro-logo" alt="Logo">
   </div>
 
-  <!-- TUTTO IL SITO (inizialmente nascosto) -->
+  <!-- SITO -->
   <div id="site-content">
     <main class="page">
       <section class="frame">
@@ -236,6 +246,7 @@
         <div class="nav-icons">
           <a href="index.html" class="icon-square"></a>
           <a href="altro.html" class="icon-circle"></a>
+          <a href="editoriali.html" class="icon-triangle"></a>
         </div>
 
         <div class="story-window" id="storyWindow">
