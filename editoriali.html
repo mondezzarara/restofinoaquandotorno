@@ -1,65 +1,84 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Editoriali</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Editoriali</title>
 
-  <style>
-    :root {
-      --paper: #f3f3df;
-      --ink: #050505;
-    }
+<style>
+  :root { --paper:#f5f2e6; --ink:#050505; }
 
-    * { box-sizing: border-box; }
+  * { box-sizing:border-box; }
 
-    html, body {
-      margin: 0;
-      width: 100%;
-      height: 100svh;
-      background: var(--paper);
-      color: var(--ink);
-      font-family: Helvetica, Arial, sans-serif;
-      overflow: hidden;
-    }
+  html, body {
+    margin:0;
+    width:100%;
+    height:100svh;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:Helvetica,Arial,sans-serif;
+    overflow:hidden;
+  }
 
-    .page {
-      height: 100svh;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      padding-top: 4vh;
-    }
+  #content { opacity:0; transition:opacity .8s ease; }
+  #content.visible { opacity:1; }
 
-    /* FOTO COVER EDITORIALE */
-    .editorial-cover {
-      width: min(90vw, 600px);
-      height: 28vh;
-      background-size: cover;
-      background-position: center;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: opacity .25s ease;
-    }
+  .page {
+    height:100svh;
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+    padding-top:4vh;
+  }
 
-    .editorial-cover:active {
-      opacity: 0.6;
-    }
-  </style>
+  .nav-icons {
+    position:absolute;
+    right:1%;
+    top:50%;
+    transform:translateY(-50%);
+    display:flex;
+    flex-direction:column;
+    gap:0;
+  }
+
+  .icon-square { width:22px; height:22px; background:rgba(80,120,255,.30); border-radius:3px; }
+  .icon-circle { width:22px; height:22px; background:rgba(255,80,80,.30); border-radius:50%; }
+  .icon-triangle { width:22px; height:22px; background:rgba(180,80,255,.30); clip-path:polygon(50%0%,0%100%,100%100%); }
+
+  .editorial-cover {
+    width:min(90vw,600px);
+    height:28vh;
+    background-size:cover;
+    background-position:center;
+    border-radius:6px;
+    cursor:pointer;
+  }
+</style>
 </head>
 
 <body>
 
+<div id="content">
   <main class="page">
 
-    <!-- COVER EDITORIALE 1 (solo foto, nessuna scritta) -->
-    <a href="editoriale1.html" style="text-decoration:none; color:inherit;">
-      <div class="editorial-cover"
-           style="background-image:url('editoriale1-cover.jpg');">
-      </div>
+    <div class="nav-icons">
+      <a href="index.html" class="icon-square"></a>
+      <a href="altro.html" class="icon-circle"></a>
+      <a href="editoriali.html" class="icon-triangle"></a>
+    </div>
+
+    <a href="editoriale1.html" style="text-decoration:none;">
+      <div class="editorial-cover" style="background-image:url('editoriale1-cover.jpg');"></div>
     </a>
 
   </main>
+</div>
+
+<script>
+window.addEventListener("load", () => {
+  document.getElementById("content").classList.add("visible");
+});
+</script>
 
 </body>
 </html>
