@@ -93,44 +93,45 @@
 
     /* ICONE */
     .nav-icons {
-      position: absolute;
-      right: 1%;
-      top: 50%;
-      transform: translateY(-50%);
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-      z-index: 30;
-    }
+  position: fixed;
+  right: 1%;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  z-index: 999;
+}
 
-    .icon-square,
-    .icon-circle,
-    .icon-triangle {
-      width: 22px;
-      height: 22px;
-      transition: opacity .25s ease;
-    }
+.icon-square,
+.icon-circle,
+.icon-triangle {
+  width: 22px;
+  height: 22px;
+  transition: opacity .25s ease;
+}
 
-    .icon-square {
-      background: rgba(80,120,255,0.30);
-      border-radius: 3px;
-    }
+.icon-square {
+  background: rgba(80,120,255,0.30);
+  border-radius: 3px;
+}
 
-    .icon-circle {
-      background: rgba(255,80,80,0.30);
-      border-radius: 50%;
-    }
+.icon-circle {
+  background: rgba(255,80,80,0.30);
+  border-radius: 50%;
+}
 
-    .icon-triangle {
-      background: rgba(180,80,255,0.30);
-      clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-    }
+.icon-triangle {
+  background: rgba(180,80,255,0.30);
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
 
-    .icon-square:active,
-    .icon-circle:active,
-    .icon-triangle:active {
-      opacity: .55;
-    }
+.icon-square:active,
+.icon-circle:active,
+.icon-triangle:active {
+  opacity: .55;
+}
+
 
     /* RACCONTO */
     .story-window {
