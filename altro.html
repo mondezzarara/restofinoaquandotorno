@@ -46,7 +46,7 @@
       padding: 3vh 10% 0;
     }
 
-    /* TASTI A DESTRA (come editoriali.html) */
+    /* TASTI A DESTRA (identici a editoriali.html) */
     .nav-icons {
       position: absolute;
       right: 1%;
@@ -98,8 +98,8 @@
     }
 
     .track-circle {
-      width: 46px;
-      height: 46px;
+      width: 22px;   /* identico al cerchio-tasto */
+      height: 22px;
       border-radius: 50%;
       background: rgba(255,80,80,0.30);
       cursor: pointer;
@@ -111,12 +111,14 @@
     }
 
     /* LINEA PLAYER */
-    .player-line {
-      width: 100%;
+    #player-line {
+      position: absolute;
+      bottom: 3vh;
+      left: 10%;
+      width: 80%;
       height: 3px;
       background: rgba(255,80,80,0.30);
       border-radius: 999px;
-      margin-top: 2vh;
       transform-origin: left;
       transform: scaleX(0);
       transition: transform linear;
@@ -139,20 +141,13 @@
 
         <!-- MUSICA -->
         <div class="music-layout">
-
-          <!-- CANZONE 1 -->
-          <div class="track-circle" onclick="playSong(1)"></div>
-          <div class="player-line" id="line1"></div>
-
-          <!-- CANZONE 2 -->
-          <div class="track-circle" onclick="playSong(2)"></div>
-          <div class="player-line" id="line2"></div>
-
-          <!-- CANZONE 3 -->
-          <div class="track-circle" onclick="playSong(3)"></div>
-          <div class="player-line" id="line3"></div>
-
+          <div class="track-circle" onclick="playSong('canzone1')"></div>
+          <div class="track-circle" onclick="playSong('canzone2')"></div>
+          <div class="track-circle" onclick="playSong('canzone3')"></div>
         </div>
+
+        <!-- PLAYER -->
+        <div id="player-line"></div>
 
       </section>
     </main>
@@ -168,32 +163,26 @@
       document.getElementById("content").classList.add("visible");
     });
 
-    function playSong(n) {
-      const audioId = "canzone" + n;
-      const lineId = "line" + n;
-
-      const audio = document.getElementById(audioId);
-      const line = document.getElementById(lineId);
+    function playSong(id) {
+      const audio = document.getElementById(id);
+      const line = document.getElementById("player-line");
 
       /* Stop all songs */
-      ["canzone1","canzone2","canzone3"].forEach(id => {
-        const a = document.getElementById(id);
+      ["canzone1","canzone2","canzone3"].forEach(name => {
+        const a = document.getElementById(name);
         a.pause();
         a.currentTime = 0;
       });
 
-      /* Reset all lines */
-      ["line1","line2","line3"].forEach(id => {
-        const l = document.getElementById(id);
-        l.style.transitionDuration = "0s";
-        l.style.transform = "scaleX(0)";
-      });
+      /* Reset line */
+      line.style.transitionDuration = "0s";
+      line.style.transform = "scaleX(0)";
 
       /* Play selected */
       audio.play();
 
       /* Animate line */
-      const duration = audio.duration || 5; // fallback
+      const duration = audio.duration || 5; /* fallback */
       line.style.transitionDuration = duration + "s";
       line.style.transform = "scaleX(1)";
     }
