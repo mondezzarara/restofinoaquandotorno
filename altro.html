@@ -46,16 +46,16 @@
       padding: 3vh 10% 0;
     }
 
-    /* TASTI A DESTRA (identici a editoriali.html) */
+    /* TASTI A DESTRA — IDENTICI A editoriali.html */
     .nav-icons {
-      position: absolute;
+      position: fixed;
       right: 1%;
       top: 50%;
       transform: translateY(-50%);
       display: flex;
       flex-direction: column;
       gap: 0;
-      z-index: 30;
+      z-index: 999;
     }
 
     .icon-square,
@@ -87,7 +87,7 @@
       opacity: .55;
     }
 
-    /* CERCHI DELLE CANZONI */
+    /* CERCHI DELLE CANZONI — identici al cerchio rosso del tasto */
     .music-layout {
       width: 100%;
       display: flex;
@@ -98,7 +98,7 @@
     }
 
     .track-circle {
-      width: 22px;   /* identico al cerchio-tasto */
+      width: 22px;
       height: 22px;
       border-radius: 50%;
       background: rgba(255,80,80,0.30);
@@ -110,9 +110,9 @@
       opacity: .55;
     }
 
-    /* LINEA PLAYER */
+    /* LINEA PLAYER IN BASSO */
     #player-line {
-      position: absolute;
+      position: fixed;
       bottom: 3vh;
       left: 10%;
       width: 80%;
@@ -122,6 +122,7 @@
       transform-origin: left;
       transform: scaleX(0);
       transition: transform linear;
+      z-index: 900;
     }
   </style>
 </head>
@@ -146,17 +147,17 @@
           <div class="track-circle" onclick="playSong('canzone3')"></div>
         </div>
 
-        <!-- PLAYER -->
-        <div id="player-line"></div>
-
       </section>
     </main>
   </div>
 
-  <!-- AUDIO: NOMI COME LI HAI CARICATI -->
+  <!-- AUDIO -->
   <audio id="canzone1" src="canzone1.mp3"></audio>
   <audio id="canzone2" src="canzone2.mp3"></audio>
   <audio id="canzone3" src="canzone3.mp3"></audio>
+
+  <!-- PLAYER LINE -->
+  <div id="player-line"></div>
 
   <script>
     window.addEventListener("load", () => {
