@@ -197,10 +197,12 @@
     window.addEventListener("load", () => {
       setTimeout(() => {
         document.getElementById("intro-logo").style.opacity = 0;
+
         setTimeout(() => {
           document.getElementById("intro-logo").style.display = "none";
-          loadRandomModule();
+          loadRandomModule();   // <— ORA IL TESTO APPARE SEMPRE
         }, 1200);
+
       }, 600);
     });
   </script>
