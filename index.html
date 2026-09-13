@@ -3,13 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Idee Valide — Racconto</title>
+  <title>Idee Valide — Racconto Randomico</title>
 
   <style>
     :root {
-      --paper: #f5f2e6; /* SOFT IVORY */
+      --paper: #f5f2e6;
       --ink: #050505;
-      --frame-width: min(64vw, 620px);
     }
 
     * { box-sizing: border-box; }
@@ -20,43 +19,52 @@
       height: 100svh;
       background: var(--paper);
       color: var(--ink);
-      overflow: hidden;
       font-family: Helvetica, Arial, sans-serif;
+      overflow: hidden;
     }
 
-    /* INTRO */
-    #intro {
+    /* TASTI A DESTRA */
+    .nav-icons {
       position: fixed;
-      inset: 0;
-      background: var(--paper);
+      right: 1%;
+      top: 50%;
+      transform: translateY(-50%);
       display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-      opacity: 0;
-      animation: introFadeIn 1.2s ease forwards;
+      flex-direction: column;
+      gap: 0;
+      z-index: 999;
     }
 
-    #intro-logo {
-      width: 140px;
-      opacity: 0;
-      animation: logoFadeIn 1.2s ease forwards;
+    .icon-square,
+    .icon-circle,
+    .icon-triangle {
+      width: 22px;
+      height: 22px;
+      transition: opacity .25s ease;
     }
 
-    @keyframes introFadeIn { from { opacity:0; } to { opacity:1; } }
-    @keyframes logoFadeIn { from { opacity:0; transform:scale(.95);} to { opacity:1; transform:scale(1);} }
-    @keyframes introFadeOut { from { opacity:1; } to { opacity:0; } }
-
-    .fade-out { animation: introFadeOut 1s ease forwards; }
-
-    /* FADE-IN DEL SITO */
-    #site-content {
-      opacity: 0;
-      transition: opacity .8s ease;
+    .icon-square {
+      background: rgba(80,120,255,0.30);
+      border-radius: 3px;
     }
-    #site-content.visible { opacity: 1; }
 
-    /* FRAME */
+    .icon-circle {
+      background: rgba(255,80,80,0.30);
+      border-radius: 50%;
+    }
+
+    .icon-triangle {
+      background: rgba(180,80,255,0.30);
+      clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    }
+
+    .icon-square:active,
+    .icon-circle:active,
+    .icon-triangle:active {
+      opacity: .55;
+    }
+
+    /* FRAME CENTRALE */
     .page {
       height: 100svh;
       display: flex;
@@ -66,74 +74,13 @@
 
     .frame {
       position: relative;
-      width: var(--frame-width);
+      width: min(64vw, 620px);
       height: 100%;
-      overflow: hidden;
       padding: 3vh 10% 0;
+      overflow: hidden;
     }
 
-    /* TOP FADE */
-    .top-fade {
-      position: absolute;
-      top: 0;
-      width: 100%;
-      height: 14vh;
-      background: linear-gradient(
-        to bottom,
-        var(--paper) 0%,
-        rgba(245,242,230,0.95) 10%,
-        rgba(245,242,230,0.80) 30%,
-        rgba(245,242,230,0.55) 55%,
-        rgba(245,242,230,0.30) 75%,
-        rgba(245,242,230,0.10) 90%,
-        rgba(245,242,230,0) 100%
-      );
-      pointer-events: none;
-    }
-
-    /* ICONE */
-    .nav-icons {
-  position: fixed;
-  right: 1%;
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  z-index: 999;
-}
-
-.icon-square,
-.icon-circle,
-.icon-triangle {
-  width: 22px;
-  height: 22px;
-  transition: opacity .25s ease;
-}
-
-.icon-square {
-  background: rgba(80,120,255,0.30);
-  border-radius: 3px;
-}
-
-.icon-circle {
-  background: rgba(255,80,80,0.30);
-  border-radius: 50%;
-}
-
-.icon-triangle {
-  background: rgba(180,80,255,0.30);
-  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-}
-
-.icon-square:active,
-.icon-circle:active,
-.icon-triangle:active {
-  opacity: .55;
-}
-
-
-    /* RACCONTO */
+    /* TESTO RANDOMICO */
     .story-window {
       width: 100%;
       height: 100%;
@@ -143,7 +90,7 @@
     .story-window::-webkit-scrollbar { display:none; }
 
     .story {
-      padding-top: 2.5vh;
+      padding-top: 2vh;
     }
 
     .paragraph {
@@ -153,73 +100,69 @@
       line-height: .95;
       letter-spacing: -0.045em;
     }
+
+    /* QUADRATO BLU GRANDE PER REFRESH */
+    .refresh-square {
+      position: fixed;
+      bottom: 3%;
+      right: 3%;
+      width: 42px;
+      height: 42px;
+      background: rgba(80,120,255,0.30);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: opacity .25s ease;
+      z-index: 999;
+    }
+
+    .refresh-square:active {
+      opacity: .55;
+    }
   </style>
 </head>
 
 <body>
 
-  <!-- INTRO -->
-  <div id="intro">
-    <img src="logo-intro.png" id="intro-logo">
+  <!-- TASTI -->
+  <div class="nav-icons">
+    <a href="index.html" class="icon-square"></a>
+    <a href="altro.html" class="icon-circle"></a>
+    <a href="editoriali.html" class="icon-triangle"></a>
   </div>
 
-  <!-- SITO -->
-  <div id="site-content">
-    <main class="page">
-      <section class="frame">
+  <!-- QUADRATO GRANDE PER REFRESH -->
+  <div class="refresh-square" onclick="loadRandomModule()"></div>
 
-        <div class="top-fade"></div>
-
-        <div class="nav-icons">
-          <a href="index.html" class="icon-square"></a>
-          <a href="altro.html" class="icon-circle"></a>
-          <a href="editoriali.html" class="icon-triangle"></a>
-        </div>
-
-        <div class="story-window" id="storyWindow">
-          <div class="story" id="story"></div>
-        </div>
-
-      </section>
-    </main>
-  </div>
+  <main class="page">
+    <section class="frame">
+      <div class="story-window">
+        <div class="story" id="story"></div>
+      </div>
+    </section>
+  </main>
 
   <script>
-    async function loadStory() {
+    async function loadRandomModule() {
       const storyEl = document.getElementById("story");
-      const windowEl = document.getElementById("storyWindow");
 
-      const response = await fetch("racconto.txt");
-      const text = await response.text();
+      const response = await fetch("moduli.json");
+      const modules = await response.json();
 
-      const lines = text.split("\n").map(l => l.trim()).filter(l => l.length>0);
+      const randomIndex = Math.floor(Math.random() * modules.length);
+      const selected = modules[randomIndex];
 
-      lines.forEach(line => {
+      storyEl.innerHTML = "";
+
+      selected.forEach(line => {
         const p = document.createElement("p");
         p.className = "paragraph";
         p.textContent = line;
         storyEl.appendChild(p);
       });
-
-      const savedScroll = localStorage.getItem("scrollPosition");
-      if (savedScroll !== null) {
-        requestAnimationFrame(() => windowEl.scrollTop = parseInt(savedScroll,10));
-      }
-
-      windowEl.addEventListener("scroll", () => {
-        localStorage.setItem("scrollPosition", windowEl.scrollTop);
-      });
     }
 
-    loadStory();
-
-    window.addEventListener("load", () => {
-      const intro = document.getElementById("intro");
-      const site = document.getElementById("site-content");
-
-      setTimeout(() => intro.classList.add("fade-out"), 1800);
-      setTimeout(() => { intro.remove(); site.classList.add("visible"); }, 2800);
-    });
+    /* Carica un modulo randomico all'ingresso */
+    window.addEventListener("load", loadRandomModule);
   </script>
 
 </body>
