@@ -32,14 +32,14 @@
       justify-content: center;
       align-items: center;
       opacity: 1;
-      transition: opacity 1.2s ease;
+      transition: opacity 1s ease;
       z-index: 2000;
     }
 
     #intro-logo img {
       width: 160px;
       opacity: 0;
-      animation: fadeIn 1.2s forwards;
+      animation: fadeIn 1s forwards;
     }
 
     @keyframes fadeIn {
@@ -115,7 +115,7 @@
     .story {
       padding-top: 2vh;
       opacity: 0;
-      transition: opacity 1s ease;
+      transition: opacity .8s ease;
     }
 
     .paragraph {
@@ -175,22 +175,28 @@
     async function loadRandomModule() {
       const storyEl = document.getElementById("story");
 
-      const response = await fetch("moduli.json");
-      const modules = await response.json();
+      try {
+        const response = await fetch("moduli.json");
+        const modules = await response.json();
 
-      const randomIndex = Math.floor(Math.random() * modules.length);
-      const selected = modules[randomIndex];
+        const randomIndex = Math.floor(Math.random() * modules.length);
+        const selected = modules[randomIndex];
 
-      storyEl.innerHTML = "";
+        storyEl.innerHTML = "";
 
-      selected.forEach(line => {
-        const p = document.createElement("p");
-        p.className = "paragraph";
-        p.textContent = line;
-        storyEl.appendChild(p);
-      });
+        selected.forEach(line => {
+          const p = document.createElement("p");
+          p.className = "paragraph";
+          p.textContent = line;
+          storyEl.appendChild(p);
+        });
 
-      storyEl.style.opacity = 1;
+        storyEl.style.opacity = 1;
+
+      } catch (e) {
+        storyEl.innerHTML = "<p class='paragraph'>Errore: impossibile caricare moduli.json</p>";
+        storyEl.style.opacity = 1;
+      }
     }
 
     /* LOGO → SCOMPARE → CARICA MODULO */
@@ -201,7 +207,7 @@
         setTimeout(() => {
           document.getElementById("intro-logo").style.display = "none";
           loadRandomModule();   // <— ORA IL TESTO APPARE SEMPRE
-        }, 1200);
+        }, 1000);
 
       }, 600);
     });
