@@ -177,6 +177,8 @@
 
       try {
         const response = await fetch("moduli.json");
+        if (!response.ok) throw new Error("File non trovato");
+
         const modules = await response.json();
 
         const randomIndex = Math.floor(Math.random() * modules.length);
@@ -194,7 +196,10 @@
         storyEl.style.opacity = 1;
 
       } catch (e) {
-        storyEl.innerHTML = "<p class='paragraph'>Errore: impossibile caricare moduli.json</p>";
+        storyEl.innerHTML = `
+          <p class="paragraph">Errore: impossibile caricare moduli.json</p>
+          <p class="paragraph">Assicurati che moduli.json sia nella stessa cartella di index.html.</p>
+        `;
         storyEl.style.opacity = 1;
       }
     }
@@ -206,7 +211,7 @@
 
         setTimeout(() => {
           document.getElementById("intro-logo").style.display = "none";
-          loadRandomModule();   // <— ORA IL TESTO APPARE SEMPRE
+          loadRandomModule();
         }, 1000);
 
       }, 600);
