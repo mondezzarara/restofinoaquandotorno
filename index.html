@@ -23,6 +23,29 @@
       overflow: hidden;
     }
 
+    /* LOGO INTRO */
+    #intro-logo {
+      position: fixed;
+      inset: 0;
+      background: var(--paper);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 1;
+      transition: opacity 1.2s ease;
+      z-index: 2000;
+    }
+
+    #intro-logo img {
+      width: 160px;
+      opacity: 0;
+      animation: fadeIn 1.2s forwards;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
     /* TASTI A DESTRA */
     .nav-icons {
       position: fixed;
@@ -91,6 +114,8 @@
 
     .story {
       padding-top: 2vh;
+      opacity: 0;
+      transition: opacity 1s ease;
     }
 
     .paragraph {
@@ -122,6 +147,11 @@
 </head>
 
 <body>
+
+  <!-- LOGO INTRO -->
+  <div id="intro-logo">
+    <img src="logo.png" alt="">
+  </div>
 
   <!-- TASTI -->
   <div class="nav-icons">
@@ -159,10 +189,20 @@
         p.textContent = line;
         storyEl.appendChild(p);
       });
+
+      storyEl.style.opacity = 1;
     }
 
-    /* Carica un modulo randomico all'ingresso */
-    window.addEventListener("load", loadRandomModule);
+    /* LOGO → SCOMPARE → CARICA MODULO */
+    window.addEventListener("load", () => {
+      setTimeout(() => {
+        document.getElementById("intro-logo").style.opacity = 0;
+        setTimeout(() => {
+          document.getElementById("intro-logo").style.display = "none";
+          loadRandomModule();
+        }, 1200);
+      }, 600);
+    });
   </script>
 
 </body>
