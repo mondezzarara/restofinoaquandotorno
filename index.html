@@ -213,17 +213,20 @@
     }
 
     /* LOGO → SCOMPARE → CARICA MODULO */
-    window.addEventListener("load", () => {
-      setTimeout(() => {
-        document.getElementById("intro-logo").style.opacity = 0;
+   window.addEventListener("load", () => {
 
-        setTimeout(() => {
-          document.getElementById("intro-logo").style.display = "none";
-          loadRandomModule();
-        }, 1000);
+  // ⏳ Pausa più lunga prima del fade-out
+  setTimeout(() => {
+    document.getElementById("intro-logo").style.opacity = 0;
 
-      }, 600);
-    });
+    // ⏳ Fade-out identico, poi carica il modulo
+    setTimeout(() => {
+      document.getElementById("intro-logo").style.display = "none";
+      loadRandomModule();
+    }, 1000);
+
+  }, 1800); // ← durata aumentata (prima era 600)
+});
 
   </script>
 
