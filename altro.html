@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Canzoni</title>
+  <title>Idee Valide — Musica</title>
 
   <style>
     :root {
-      --paper: #f5f2e6; /* Soft Ivory */
+      --paper: #f5f2e6;
       --ink: #050505;
+      --red: rgba(255,80,80,0.30);
     }
 
     * { box-sizing: border-box; }
@@ -23,30 +24,30 @@
       overflow: hidden;
     }
 
-    /* FADE-IN */
-    #content {
-      opacity: 0;
-      transition: opacity .8s ease;
-    }
-    #content.visible {
-      opacity: 1;
-    }
-
-    .page {
-      height: 100svh;
+    /* LOGO INTRO */
+    #intro-logo {
+      position: fixed;
+      inset: 0;
+      background: var(--paper);
       display: flex;
       justify-content: center;
       align-items: center;
+      opacity: 1;
+      transition: opacity 1s ease;
+      z-index: 2000;
     }
 
-    .frame {
-      position: relative;
-      width: min(64vw, 620px);
-      height: 100%;
-      padding: 3vh 10% 0;
+    #intro-logo img {
+      width: 160px;
+      opacity: 0;
+      animation: fadeIn 1s forwards;
     }
 
-    /* TASTI A DESTRA — IDENTICI A editoriali.html */
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    /* TASTI A DESTRA */
     .nav-icons {
       position: fixed;
       right: 1%;
@@ -72,7 +73,7 @@
     }
 
     .icon-circle {
-      background: rgba(255,80,80,0.30);
+      background: var(--red);
       border-radius: 50%;
     }
 
@@ -87,106 +88,97 @@
       opacity: .55;
     }
 
-    /* CERCHI GRANDI DELLE CANZONI — dimensione originale */
-    .music-layout {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 5vh;
-      margin-top: 6vh;
-    }
-
-    .track-circle {
-      width: 110px;      /* DIMENSIONE NORMALE ORIGINALE */
-      height: 110px;
+    /* CERCHIO ROSSO CENTRALE */
+    .music-circle {
+      width: 120px;
+      height: 120px;
+      background: var(--red);
       border-radius: 50%;
-      background: rgba(255,80,80,0.30);
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       cursor: pointer;
-      transition: opacity .25s ease;
+      transition: transform 150ms ease, opacity .25s ease;
+      z-index: 900;
     }
 
-    .track-circle:active {
+    .music-circle:active {
+      transform: translate(-50%, -50%) scale(0.92);
       opacity: .55;
     }
 
-    /* LINEA PLAYER IN BASSO */
-    #player-line {
-      position: fixed;
-      bottom: 3vh;
-      left: 10%;
-      width: 80%;
-      height: 3px;
-      background: rgba(255,80,80,0.30);
-      border-radius: 999px;
-      transform-origin: left;
-      transform: scaleX(0);
-      transition: transform linear;
-      z-index: 900;
+    /* ANIMAZIONE DEL CERCHIO (come il quadrato) */
+    .pulse {
+      animation: pulseAnim 0.24s ease;
     }
+
+    @keyframes pulseAnim {
+      0% { transform: translate(-50%, -50%) scale(0.92); }
+      50% { transform: translate(-50%, -50%) scale(1.04); }
+      100% { transform: translate(-50%, -50%) scale(1); }
+    }
+
   </style>
 </head>
 
 <body>
 
-  <div id="content">
-    <main class="page">
-      <section class="frame">
-
-        <!-- TASTI -->
-        <div class="nav-icons">
-          <a href="index.html" class="icon-square"></a>
-          <a href="altro.html" class="icon-circle"></a>
-          <a href="editoriali.html" class="icon-triangle"></a>
-        </div>
-
-        <!-- TRE CERCHI GRANDI -->
-        <div class="music-layout">
-          <div class="track-circle" onclick="playSong('canzone1')"></div>
-          <div class="track-circle" onclick="playSong('canzone2')"></div>
-          <div class="track-circle" onclick="playSong('canzone3')"></div>
-        </div>
-
-      </section>
-    </main>
+  <!-- LOGO INTRO -->
+  <div id="intro-logo">
+    <img src="logo-intro.png" alt="">
   </div>
 
-  <!-- AUDIO -->
-  <audio id="canzone1" src="canzone1.mp3"></audio>
-  <audio id="canzone2" src="canzone2.mp3"></audio>
-  <audio id="canzone3" src="canzone3.mp3"></audio>
+  <!-- TASTI -->
+  <div class="nav-icons">
+    <a href="index.html" class="icon-square"></a>
+    <a href="musica.html" class="icon-circle"></a>
+    <a href="editoriali.html" class="icon-triangle"></a>
+  </div>
 
-  <!-- PLAYER -->
-  <div id="player-line"></div>
+  <!-- CERCHIO ROSSO CENTRALE -->
+  <div class="music-circle" onclick="playRandomSong(); animateCircle()"></div>
+
+  <!-- AUDIO PLAYER INVISIBILE -->
+  <audio id="player"></audio>
 
   <script>
+
+    /* ⭐ ANIMAZIONE MINIMAL DEL CERCHIO */
+    function animateCircle() {
+      const circle = document.querySelector(".music-circle");
+      circle.classList.remove("pulse");
+      void circle.offsetWidth; // reset anim
+      circle.classList.add("pulse");
+    }
+
+    /* ⭐ CANZONI RANDOMICHE */
+    const songs = [
+      "canzone1.mp3",
+      "canzone2.mp3",
+      "canzone3.mp3",
+    ];
+
+    function playRandomSong() {
+      const player = document.getElementById("player");
+      const randomIndex = Math.floor(Math.random() * songs.length);
+      player.src = songs[randomIndex];
+      player.play();
+    }
+
+    /* ⭐ LOGO → PAUSA → FADE OUT → PAGINA */
     window.addEventListener("load", () => {
-      document.getElementById("content").classList.add("visible");
+
+      setTimeout(() => {
+        document.getElementById("intro-logo").style.opacity = 0;
+
+        setTimeout(() => {
+          document.getElementById("intro-logo").style.display = "none";
+        }, 1000);
+
+      }, 1800);
     });
 
-    function playSong(id) {
-      const audio = document.getElementById(id);
-      const line = document.getElementById("player-line");
-
-      /* Stop all songs */
-      ["canzone1","canzone2","canzone3"].forEach(name => {
-        const a = document.getElementById(name);
-        a.pause();
-        a.currentTime = 0;
-      });
-
-      /* Reset line */
-      line.style.transitionDuration = "0s";
-      line.style.transform = "scaleX(0)";
-
-      /* Play selected */
-      audio.play();
-
-      /* Animate line */
-      const duration = audio.duration || 5; /* fallback */
-      line.style.transitionDuration = duration + "s";
-      line.style.transform = "scaleX(1)";
-    }
   </script>
 
 </body>
