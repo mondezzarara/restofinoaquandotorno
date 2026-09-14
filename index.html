@@ -126,7 +126,7 @@
       letter-spacing: -0.045em;
     }
 
-    /* QUADRATO BLU GRANDE PER REFRESH */
+    /* QUADRATO BLU GRANDE PER REFRESH + ANIMAZIONE MINIMAL */
     .refresh-square {
       position: fixed;
       bottom: 3%;
@@ -136,32 +136,14 @@
       background: rgba(80,120,255,0.30);
       border-radius: 4px;
       cursor: pointer;
-      transition: opacity .25s ease;
+      transition: transform 150ms ease, opacity .25s ease;
       z-index: 999;
     }
 
     .refresh-square:active {
+      transform: scale(0.92);
       opacity: .55;
     }
-    /* ANIMAZIONE MINIMAL DEL QUADRATO BLU */
-.refresh-square {
-  position: fixed;
-  bottom: 3%;
-  right: 3%;
-  width: 42px;
-  height: 42px;
-  background: rgba(80,120,255,0.30);
-  border-radius: 4px;
-  cursor: pointer;
-  transition: transform 150ms ease, opacity .25s ease;
-  z-index: 999;
-}
-
-.refresh-square:active {
-  transform: scale(0.92);
-  opacity: .55;
-}
-
   </style>
 </head>
 
@@ -180,22 +162,8 @@
   </div>
 
   <!-- QUADRATO GRANDE PER REFRESH -->
-<div class="refresh-square" onclick="animateRefreshSquare(); loadRandomModule()"></div>
+  <div class="refresh-square" onclick="animateRefreshSquare(); loadRandomModule()"></div>
 
-
-  function animateRefreshSquare() {
-  const sq = document.querySelector(".refresh-square");
-
-  sq.style.transform = "scale(0.92)";
-
-  setTimeout(() => {
-    sq.style.transform = "scale(1.04)";
-  }, 120);
-
-  setTimeout(() => {
-    sq.style.transform = "scale(1)";
-  }, 240);
-}
   <main class="page">
     <section class="frame">
       <div class="story-window">
@@ -206,11 +174,26 @@
 
   <script>
 
-    /* ⭐ ANIMAZIONE DELICATA DEI MODULI — DIRETTAMENTE ALL’INIZIO ⭐ */
+    /* ⭐ ANIMAZIONE MINIMAL DEL QUADRATO */
+    function animateRefreshSquare() {
+      const sq = document.querySelector(".refresh-square");
+
+      sq.style.transform = "scale(0.92)";
+
+      setTimeout(() => {
+        sq.style.transform = "scale(1.04)";
+      }, 120);
+
+      setTimeout(() => {
+        sq.style.transform = "scale(1)";
+      }, 240);
+    }
+
+    /* ⭐ ANIMAZIONE DELICATA DEI MODULI */
     async function loadRandomModule() {
       const storyEl = document.getElementById("story");
 
-      /* FADE OUT DELICATO */
+      /* FADE OUT */
       storyEl.style.opacity = 0;
 
       try {
@@ -221,7 +204,6 @@
         const randomIndex = Math.floor(Math.random() * modules.length);
         const selected = modules[randomIndex];
 
-        /* Aspetta che il fade-out finisca */
         setTimeout(() => {
           storyEl.innerHTML = "";
 
@@ -232,7 +214,7 @@
             storyEl.appendChild(p);
           });
 
-          /* FADE IN DELICATO */
+          /* FADE IN */
           storyEl.style.opacity = 1;
 
         }, 300);
@@ -245,21 +227,19 @@
       }
     }
 
-    /* LOGO → SCOMPARE → CARICA MODULO */
-   window.addEventListener("load", () => {
+    /* ⭐ LOGO → PAUSA PIÙ LUNGA → FADE OUT → MODULO */
+    window.addEventListener("load", () => {
 
-  // ⏳ Pausa più lunga prima del fade-out
-  setTimeout(() => {
-    document.getElementById("intro-logo").style.opacity = 0;
+      setTimeout(() => {
+        document.getElementById("intro-logo").style.opacity = 0;
 
-    // ⏳ Fade-out identico, poi carica il modulo
-    setTimeout(() => {
-      document.getElementById("intro-logo").style.display = "none";
-      loadRandomModule();
-    }, 1000);
+        setTimeout(() => {
+          document.getElementById("intro-logo").style.display = "none";
+          loadRandomModule();
+        }, 1000);
 
-  }, 2500); // ← durata aumentata (prima era 600)
-});
+      }, 1800); /* ← durata aumentata */
+    });
 
   </script>
 
