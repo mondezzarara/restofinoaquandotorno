@@ -143,6 +143,25 @@
     .refresh-square:active {
       opacity: .55;
     }
+    /* ANIMAZIONE MINIMAL DEL QUADRATO BLU */
+.refresh-square {
+  position: fixed;
+  bottom: 3%;
+  right: 3%;
+  width: 42px;
+  height: 42px;
+  background: rgba(80,120,255,0.30);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: transform 150ms ease, opacity .25s ease;
+  z-index: 999;
+}
+
+.refresh-square:active {
+  transform: scale(0.92);
+  opacity: .55;
+}
+
   </style>
 </head>
 
@@ -161,8 +180,22 @@
   </div>
 
   <!-- QUADRATO GRANDE PER REFRESH -->
-  <div class="refresh-square" onclick="loadRandomModule()"></div>
+<div class="refresh-square" onclick="animateRefreshSquare(); loadRandomModule()"></div>
 
+
+  function animateRefreshSquare() {
+  const sq = document.querySelector(".refresh-square");
+
+  sq.style.transform = "scale(0.92)";
+
+  setTimeout(() => {
+    sq.style.transform = "scale(1.04)";
+  }, 120);
+
+  setTimeout(() => {
+    sq.style.transform = "scale(1)";
+  }, 240);
+}
   <main class="page">
     <section class="frame">
       <div class="story-window">
