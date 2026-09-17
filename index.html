@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Idee Valide</title>
+  <title>Idee Valide — Racconto</title>
 
   <style>
     :root {
@@ -81,12 +81,6 @@
       clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
     }
 
-    .icon-square:active,
-    .icon-circle:active,
-    .icon-triangle:active {
-      opacity: .55;
-    }
-
     /* FRAME CENTRALE */
     .page {
       height: 100svh;
@@ -126,7 +120,7 @@
       letter-spacing: -0.045em;
     }
 
-    /* QUADRATO BLU GRANDE PER REFRESH + ANIMAZIONE MINIMAL */
+    /* QUADRATO BLU GRANDE PER REFRESH */
     .refresh-square {
       position: fixed;
       bottom: 3%;
@@ -144,6 +138,17 @@
       transform: scale(0.92);
       opacity: .55;
     }
+
+    .pulse {
+      animation: pulseAnim 0.24s ease;
+    }
+
+    @keyframes pulseAnim {
+      0% { transform: scale(0.92); }
+      50% { transform: scale(1.04); }
+      100% { transform: scale(1); }
+    }
+
   </style>
 </head>
 
@@ -157,12 +162,12 @@
   <!-- TASTI -->
   <div class="nav-icons">
     <a href="index.html" class="icon-square"></a>
-    <a href="altro.html" class="icon-circle"></a>
+    <a href="musica.html" class="icon-circle"></a>
     <a href="editoriali.html" class="icon-triangle"></a>
   </div>
 
   <!-- QUADRATO GRANDE PER REFRESH -->
-  <div class="refresh-square" onclick="animateRefreshSquare(); loadRandomModule()"></div>
+  <div class="refresh-square" onclick="animateRefreshSquare(); loadRandomStory()"></div>
 
   <main class="page">
     <section class="frame">
@@ -174,71 +179,63 @@
 
   <script>
 
-    /* ⭐ ANIMAZIONE MINIMAL DEL QUADRATO */
+    /* ANIMAZIONE QUADRATO */
     function animateRefreshSquare() {
       const sq = document.querySelector(".refresh-square");
-
-      sq.style.transform = "scale(0.92)";
-
-      setTimeout(() => {
-        sq.style.transform = "scale(1.04)";
-      }, 120);
-
-      setTimeout(() => {
-        sq.style.transform = "scale(1)";
-      }, 240);
+      sq.classList.remove("pulse");
+      void sq.offsetWidth;
+      sq.classList.add("pulse");
     }
 
-    /* ⭐ ANIMAZIONE DELICATA DEI MODULI */
-    async function loadRandomModule() {
+    /* CARICA RACCONTI DA racconto.txt */
+    async function loadRandomStory() {
       const storyEl = document.getElementById("story");
-
-      /* FADE OUT */
       storyEl.style.opacity = 0;
 
       try {
-        const response = await fetch("moduli.json");
-        if (!response.ok) throw new Error("File non trovato");
+        const response = await fetch("racconto.txt");
+        const text = await response.text();
 
-        const modules = await response.json();
-        const randomIndex = Math.floor(Math.random() * modules.length);
-        const selected = modules[randomIndex];
+        const blocks = text.split("=== INIZIO ===").slice(1).map(block => {
+          return block.split("=== FINE ===")[0].trim();
+        });
+
+        const randomIndex = Math.floor(Math.random() * blocks.length);
+        const selected = blocks[randomIndex];
 
         setTimeout(() => {
           storyEl.innerHTML = "";
 
-          selected.forEach(line => {
-            const p = document.createElement("p");
-            p.className = "paragraph";
-            p.textContent = line;
-            storyEl.appendChild(p);
+          selected.split("\n").forEach(line => {
+            if (line.trim() !== "") {
+              const p = document.createElement("p");
+              p.className = "paragraph";
+              p.textContent = line.trim();
+              storyEl.appendChild(p);
+            }
           });
 
-          /* FADE IN */
           storyEl.style.opacity = 1;
 
         }, 300);
 
       } catch (e) {
-        storyEl.innerHTML = `
-          <p class="paragraph">Errore: impossibile caricare moduli.json</p>
-        `;
+        storyEl.innerHTML = "<p class='paragraph'>Errore nel caricamento del racconto.</p>";
         storyEl.style.opacity = 1;
       }
     }
 
-    /* ⭐ LOGO → PAUSA PIÙ LUNGA → FADE OUT → MODULO */
+    /* LOGO INTRO */
     window.addEventListener("load", () => {
-
       setTimeout(() => {
         document.getElementById("intro-logo").style.opacity = 0;
 
         setTimeout(() => {
           document.getElementById("intro-logo").style.display = "none";
-          loadRandomModule();
+          loadRandomStory();
         }, 1000);
 
-      }, 1800); /* ← durata aumentata */
+      }, 1800);
     });
 
   </script>
