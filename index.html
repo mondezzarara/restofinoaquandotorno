@@ -3,13 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Idee Valide — Racconto</title>
+  <title>Idee Valide</title>
 
   <style>
     :root {
       --paper: #f5f2e6;
       --ink: #050505;
-      --green: #3a5f3a;
     }
 
     * { box-sizing: border-box; }
@@ -82,7 +81,7 @@
       clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
     }
 
-    /* FRAME */
+    /* FRAME CENTRALE */
     .page {
       height: 100svh;
       display: flex;
@@ -98,6 +97,7 @@
       overflow: hidden;
     }
 
+    /* TESTO RANDOMICO */
     .story-window {
       width: 100%;
       height: 100%;
@@ -113,15 +113,15 @@
     }
 
     .paragraph {
-      margin: 0 0 1.2em;
-      font-weight: 700;
-      font-size: clamp(20px,5vw,32px);
-      line-height: .95;
-      letter-spacing: -0.045em;
-      color: var(--green);
-    }
+  margin: 0 0 1.2em;
+  font-weight: 700;
+  font-size: clamp(20px,5vw,32px);
+  line-height: .95;
+  letter-spacing: -0.045em;
+  color: #3a5f3a; /* verde editoriale */
+}
 
-    /* QUADRATO BLU */
+    /* QUADRATO BLU GRANDE PER REFRESH */
     .refresh-square {
       position: fixed;
       bottom: 3%;
@@ -149,6 +149,7 @@
       50% { transform: scale(1.04); }
       100% { transform: scale(1); }
     }
+
   </style>
 </head>
 
@@ -166,7 +167,7 @@
     <a href="editoriali.html" class="icon-triangle"></a>
   </div>
 
-  <!-- QUADRATO -->
+  <!-- QUADRATO GRANDE PER REFRESH -->
   <div class="refresh-square" onclick="animateRefreshSquare(); loadRandomStory()"></div>
 
   <main class="page">
@@ -178,47 +179,6 @@
   </main>
 
   <script>
-    /* TRACKING */
-    function track(event) {
-      const count = localStorage.getItem(event);
-      localStorage.setItem(event, count ? Number(count) + 1 : 1);
-    }
-
-    /* PANNELLO SVILUPPATORI */
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "S" && e.shiftKey) showDevPanel();
-    });
-
-    function showDevPanel() {
-      const panel = document.createElement("div");
-      panel.style.position = "fixed";
-      panel.style.inset = "0";
-      panel.style.background = "rgba(0,0,0,0.75)";
-      panel.style.color = "white";
-      panel.style.fontFamily = "Helvetica, Arial, sans-serif";
-      panel.style.padding = "40px";
-      panel.style.zIndex = "99999";
-      panel.style.fontSize = "22px";
-
-      panel.innerHTML = `
-        <h2>📊 Pannello Sviluppatori</h2>
-        <p>Index visualizzata: <strong>${localStorage.getItem("index_views") || 0}</strong></p>
-        <p>Musica ascoltata: <strong>${localStorage.getItem("music_plays") || 0}</strong></p>
-        <p>Editoriali letti: <strong>${localStorage.getItem("editorial_reads") || 0}</strong></p>
-
-        <button id="resetStats">Reset</button>
-        <button id="closePanel">Chiudi</button>
-      `;
-
-      document.body.appendChild(panel);
-
-      document.getElementById("resetStats").onclick = () => {
-        localStorage.clear();
-        panel.remove();
-      };
-
-      document.getElementById("closePanel").onclick = () => panel.remove();
-    }
 
     /* ANIMAZIONE QUADRATO */
     function animateRefreshSquare() {
@@ -228,7 +188,7 @@
       sq.classList.add("pulse");
     }
 
-    /* CARICA RACCONTI */
+    /* CARICA RACCONTI DA racconto.txt */
     async function loadRandomStory() {
       const storyEl = document.getElementById("story");
       storyEl.style.opacity = 0;
@@ -237,11 +197,12 @@
         const response = await fetch("racconto.txt");
         const text = await response.text();
 
-        const blocks = text.split("=== INIZIO ===").slice(1).map(block =>
-          block.split("=== FINE ===")[0].trim()
-        );
+        const blocks = text.split("=== INIZIO ===").slice(1).map(block => {
+          return block.split("=== FINE ===")[0].trim();
+        });
 
-        const selected = blocks[Math.floor(Math.random() * blocks.length)];
+        const randomIndex = Math.floor(Math.random() * blocks.length);
+        const selected = blocks[randomIndex];
 
         setTimeout(() => {
           storyEl.innerHTML = "";
@@ -249,3 +210,36 @@
           selected.split("\n").forEach(line => {
             if (line.trim() !== "") {
               const p = document.createElement("p");
+              p.className = "paragraph";
+              p.textContent = line.trim();
+              storyEl.appendChild(p);
+            }
+          });
+
+          storyEl.style.opacity = 1;
+
+        }, 300);
+
+      } catch (e) {
+        storyEl.innerHTML = "<p class='paragraph'>Errore nel caricamento del racconto.</p>";
+        storyEl.style.opacity = 1;
+      }
+    }
+
+    /* LOGO INTRO */
+    window.addEventListener("load", () => {
+      setTimeout(() => {
+        document.getElementById("intro-logo").style.opacity = 0;
+
+        setTimeout(() => {
+          document.getElementById("intro-logo").style.display = "none";
+          loadRandomStory();
+        }, 1000);
+
+      }, 1800);
+    });
+
+  </script>
+
+</body>
+</html>
