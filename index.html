@@ -9,7 +9,7 @@
     :root {
       --paper: #f5f2e6;
       --ink: #050505;
-      --green: #3a5f3a; /* verde elegante per i racconti */
+      --green: #3a5f3a;
     }
 
     * { box-sizing: border-box; }
@@ -82,7 +82,7 @@
       clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
     }
 
-    /* FRAME CENTRALE */
+    /* FRAME */
     .page {
       height: 100svh;
       display: flex;
@@ -98,7 +98,6 @@
       overflow: hidden;
     }
 
-    /* TESTO RANDOMICO */
     .story-window {
       width: 100%;
       height: 100%;
@@ -119,10 +118,10 @@
       font-size: clamp(20px,5vw,32px);
       line-height: .95;
       letter-spacing: -0.045em;
-      color: var(--green); /* verde elegante */
+      color: var(--green);
     }
 
-    /* QUADRATO BLU GRANDE PER REFRESH */
+    /* QUADRATO BLU */
     .refresh-square {
       position: fixed;
       bottom: 3%;
@@ -150,7 +149,6 @@
       50% { transform: scale(1.04); }
       100% { transform: scale(1); }
     }
-
   </style>
 </head>
 
@@ -168,7 +166,7 @@
     <a href="editoriali.html" class="icon-triangle"></a>
   </div>
 
-  <!-- QUADRATO GRANDE PER REFRESH -->
+  <!-- QUADRATO -->
   <div class="refresh-square" onclick="animateRefreshSquare(); loadRandomStory()"></div>
 
   <main class="page">
@@ -180,21 +178,49 @@
   </main>
 
   <script>
-
-    /* ⭐ TRACKING SVILUPPATORI */
+    /* TRACKING */
     function track(event) {
       const count = localStorage.getItem(event);
       localStorage.setItem(event, count ? Number(count) + 1 : 1);
     }
 
-    function devStats() {
-      console.log("📊 STATISTICHE SVILUPPATORI");
-      console.log("Index visualizzata:", localStorage.getItem("index_views") || 0);
-      console.log("Musica ascoltata:", localStorage.getItem("music_plays") || 0);
-      console.log("Editoriali letti:", localStorage.getItem("editorial_reads") || 0);
+    /* PANNELLO SVILUPPATORI */
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "S" && e.shiftKey) showDevPanel();
+    });
+
+    function showDevPanel() {
+      const panel = document.createElement("div");
+      panel.style.position = "fixed";
+      panel.style.inset = "0";
+      panel.style.background = "rgba(0,0,0,0.75)";
+      panel.style.color = "white";
+      panel.style.fontFamily = "Helvetica, Arial, sans-serif";
+      panel.style.padding = "40px";
+      panel.style.zIndex = "99999";
+      panel.style.fontSize = "22px";
+
+      panel.innerHTML = `
+        <h2>📊 Pannello Sviluppatori</h2>
+        <p>Index visualizzata: <strong>${localStorage.getItem("index_views") || 0}</strong></p>
+        <p>Musica ascoltata: <strong>${localStorage.getItem("music_plays") || 0}</strong></p>
+        <p>Editoriali letti: <strong>${localStorage.getItem("editorial_reads") || 0}</strong></p>
+
+        <button id="resetStats">Reset</button>
+        <button id="closePanel">Chiudi</button>
+      `;
+
+      document.body.appendChild(panel);
+
+      document.getElementById("resetStats").onclick = () => {
+        localStorage.clear();
+        panel.remove();
+      };
+
+      document.getElementById("closePanel").onclick = () => panel.remove();
     }
 
-    /* ⭐ ANIMAZIONE QUADRATO */
+    /* ANIMAZIONE QUADRATO */
     function animateRefreshSquare() {
       const sq = document.querySelector(".refresh-square");
       sq.classList.remove("pulse");
@@ -202,7 +228,7 @@
       sq.classList.add("pulse");
     }
 
-    /* ⭐ CARICA RACCONTI DA racconto.txt */
+    /* CARICA RACCONTI */
     async function loadRandomStory() {
       const storyEl = document.getElementById("story");
       storyEl.style.opacity = 0;
@@ -211,5 +237,15 @@
         const response = await fetch("racconto.txt");
         const text = await response.text();
 
-        const blocks = text.split("=== INIZIO ===").slice(1).map(block => {
-          return
+        const blocks = text.split("=== INIZIO ===").slice(1).map(block =>
+          block.split("=== FINE ===")[0].trim()
+        );
+
+        const selected = blocks[Math.floor(Math.random() * blocks.length)];
+
+        setTimeout(() => {
+          storyEl.innerHTML = "";
+
+          selected.split("\n").forEach(line => {
+            if (line.trim() !== "") {
+              const p = document.createElement("p");
