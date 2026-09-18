@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Idee Valide — Musica</title>
+  <title>Idee Valide</title>
 
   <style>
     :root {
@@ -82,6 +82,12 @@
       clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
     }
 
+    .icon-square:active,
+    .icon-circle:active,
+    .icon-triangle:active {
+      opacity: .55;
+    }
+
     /* CERCHIO ROSSO CENTRALE */
     .music-circle {
       width: 120px;
@@ -102,6 +108,7 @@
       opacity: .55;
     }
 
+    /* ANIMAZIONE DEL CERCHIO (come il quadrato) */
     .pulse {
       animation: pulseAnim 0.24s ease;
     }
@@ -118,3 +125,61 @@
 <body>
 
   <!-- LOGO INTRO -->
+  <div id="intro-logo">
+    <img src="logo-intro.png" alt="">
+  </div>
+
+  <!-- TASTI -->
+  <div class="nav-icons">
+    <a href="index.html" class="icon-square"></a>
+    <a href="musica.html" class="icon-circle"></a>
+    <a href="editoriali.html" class="icon-triangle"></a>
+  </div>
+
+  <!-- CERCHIO ROSSO CENTRALE -->
+  <div class="music-circle" onclick="playRandomSong(); animateCircle()"></div>
+
+  <!-- AUDIO PLAYER INVISIBILE -->
+  <audio id="player"></audio>
+
+  <script>
+
+    /* ⭐ ANIMAZIONE MINIMAL DEL CERCHIO */
+    function animateCircle() {
+      const circle = document.querySelector(".music-circle");
+      circle.classList.remove("pulse");
+      void circle.offsetWidth; // reset anim
+      circle.classList.add("pulse");
+    }
+
+    /* ⭐ CANZONI RANDOMICHE */
+    const songs = [
+      "canzone1.mp3",
+      "canzone2.mp3",
+      "canzone3.mp3",
+    ];
+
+    function playRandomSong() {
+      const player = document.getElementById("player");
+      const randomIndex = Math.floor(Math.random() * songs.length);
+      player.src = songs[randomIndex];
+      player.play();
+    }
+
+    /* ⭐ LOGO → PAUSA → FADE OUT → PAGINA */
+    window.addEventListener("load", () => {
+
+      setTimeout(() => {
+        document.getElementById("intro-logo").style.opacity = 0;
+
+        setTimeout(() => {
+          document.getElementById("intro-logo").style.display = "none";
+        }, 1000);
+
+      }, 1800);
+    });
+
+  </script>
+
+</body>
+</html>
